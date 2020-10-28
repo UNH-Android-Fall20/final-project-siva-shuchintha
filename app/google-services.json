@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "556701840916",
+    "firebase_url": "https://mbook-androidapplication.firebaseio.com",
+    "project_id": "mbook-androidapplication",
+    "storage_bucket": "mbook-androidapplication.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:556701840916:android:59b4d6761f73cc3cc55901",
+        "android_client_info": {
+          "package_name": "edu.newhaven.socialmediaapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "556701840916-2jk6ns482cu121ka2grq0smvkp5jlj6p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApNC59H3KRX38_2Fgu9Gf3B-4erxDhdrw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "556701840916-2jk6ns482cu121ka2grq0smvkp5jlj6p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
