@@ -1,14 +1,22 @@
 package edu.newhaven.socialmediaapp
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import com.google.android.gms.tasks.Continuation
+import com.google.android.gms.tasks.Task
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.StorageTask
+import com.google.firebase.storage.UploadTask
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -28,6 +36,51 @@ class MainActivity : AppCompatActivity() {
             SelectImageFunc()
         }
 
+        uploadImg.setOnClickListener {
+            UploadPostWithDescription()
+        }
+
+    }
+
+    private fun UploadPostWithDescription() {
+        if (filepath != null) {
+            var pd = ProgressDialog(this)
+            pd.setTitle("Uploading...")
+            pd.show()
+
+            var imageFileRef: StorageReference = FirebaseStorage.getInstance().reference.child(
+                System.currentTimeMillis().toString() + ".jpg"
+            )
+            var uploadTask: StorageTask<*>
+            uploadTask = imageFileRef.putFile(filepath!!)
+
+            var postURl =
+                uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+                    if (!task.isSuccessful) {
+                        task.exception?.let {
+                            throw it
+                            pd.dismiss()
+                        }
+                    } else if (task.isSuccessful) {
+                        val downloadUrl = task.result
+                        myUrl = downloadUrl.toString()
+                        val ref = FirebaseDatabase.getInstance().reference.child("posts")
+                        var a = HashMap<String, Any>()
+                        a["Title"] = description.text.toString()
+                        a["url"] = myUrl.toString()
+                        ref.updateChildren(a).addOnSuccessListener {
+                            Log.d("DescriptionUpload", "Done uploading description")
+                            pd.dismiss()
+                            Toast.makeText(this, "Posted Successfully!", Toast.LENGTH_LONG).show()
+                        }.addOnFailureListener {
+                            pd.dismiss()
+                            Toast.makeText(this, "Post unsuccessfull!", Toast.LENGTH_LONG).show()
+                        }
+                    }
+                    return@Continuation imageFileRef.downloadUrl
+                })
+
+        }
     }
 
     private fun SelectImageFunc() {
