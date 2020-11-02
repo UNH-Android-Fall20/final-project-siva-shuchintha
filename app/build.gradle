@@ -35,5 +35,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation platform('com.google.firebase:firebase-bom:25.12.0')
     implementation 'com.google.firebase:firebase-database-ktx'
-
+    //BottomNavigationViewEx library
+    implementation 'com.github.ittianyu:BottomNavigationViewEx:1.1.9'
+    //circularview library
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
 }
