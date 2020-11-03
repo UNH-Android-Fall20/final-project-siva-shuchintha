@@ -27,6 +27,24 @@
             android:text="@string/SignUp" />
 
         <EditText
+            android:id="@+id/SignUp_FullName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/FullName"
+            android:padding="10dp"
+            android:textColorHint="#ffffff"
+            android:ems="10"/>
+
+        <EditText
+            android:id="@+id/SignUp_Us"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/UserName"
+            android:padding="10dp"
+            android:textColorHint="#ffffff"
+            android:ems="10"/>
+
+        <EditText
             android:id="@+id/SignUp_EmailAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
