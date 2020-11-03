@@ -73,11 +73,8 @@ class MainActivity : AppCompatActivity() {
 
     public override fun onStart() {
         super.onStart()
-//        Log.d("onstart",auth.currentUser!!.uid)
-        // Check if user is signed in (non-null) and update UI accordingly.
-        val currentUser = auth.currentUser
-//        Log.d("onstart1", auth.currentUser!!.email.toString())
 
+        val currentUser = auth.currentUser
         updateUI(currentUser)
     }
 

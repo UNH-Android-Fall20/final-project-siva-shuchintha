@@ -49,6 +49,7 @@ class SignUp : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(baseContext, "Sign up successfull!",Toast.LENGTH_LONG).show()
+                    auth.signOut()
                     startActivity(Intent(this,MainActivity::class.java))
                     finish()
                 } else {
