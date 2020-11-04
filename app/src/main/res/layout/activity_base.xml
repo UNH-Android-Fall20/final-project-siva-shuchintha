@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:backgroundTint="#FFFFFF"
+    tools:context=".BaseActivity">
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -21,14 +22,7 @@
             <include layout="@layout/top_tab" />
         </RelativeLayout>
         <!--middle section-->
-        <Button
-            android:id="@+id/Signout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Signout"
-            tools:layout_editor_absoluteX="159dp"
-            tools:layout_editor_absoluteY="165dp"
-            android:layout_below="@+id/relLayout1"/>
+
         <!-- bottom navigation-->
         <RelativeLayout
             android:id="@+id/relLayout2"
@@ -42,5 +36,6 @@
         <include layout="@layout/bottom_navibar" />
 
     </RelativeLayout>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

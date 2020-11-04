@@ -11,7 +11,7 @@ data class Post(
     var uid: String? = "",
     var title: String? = "",
     var likes: Int = 0,
-    var comments:Array<Comment> = arrayOf<Comment>()
+    var comments: List<Comment> = listOf<Comment>()
 ) {
 
     @Exclude
