@@ -29,6 +29,16 @@ class SignUp : AppCompatActivity() {
     }
 
     private fun userSignUp() {
+        if(SignUp_FullName.text.toString().isEmpty()){
+            SignUp_FullName.error = "Full Name missing!"
+            SignUp_FullName.requestFocus()
+            return
+        }
+        if(SignUp_UserName.text.toString().isEmpty()){
+            SignUp_UserName.error = "User Name missing!"
+            SignUp_UserName.requestFocus()
+            return
+        }
         if(SignUp_EmailAddress.text.toString().isEmpty()){
             SignUp_EmailAddress.error = "Email address missing!"
             SignUp_EmailAddress.requestFocus()
