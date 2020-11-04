@@ -10,7 +10,5 @@ data class User(
     var fullname: String? = "",
     var following: Array<String> = arrayOf<String>(),
     var followers: Array<String> = arrayOf<String>(),
-    //post model has to be created
-    var post:String = ""
-
+    var post:Array<Post> = arrayOf<Post>()
 )
