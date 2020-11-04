@@ -11,7 +11,9 @@ data class Post(
     var uid: String? = "",
     var title: String? = "",
     var likes: Int = 0,
-    var comments: List<Comment> = listOf<Comment>()
+    var comments: List<Comment> = listOf<Comment>(),
+    var image:String = ""
+
 ) {
 
     @Exclude
@@ -21,6 +23,7 @@ data class Post(
             "title" to title,
             "likes" to likes,
             "comments" to comments,
+            "image" to image
         )
     }
 }

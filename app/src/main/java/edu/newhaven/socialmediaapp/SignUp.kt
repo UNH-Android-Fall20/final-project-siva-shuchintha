@@ -75,16 +75,12 @@ class SignUp : AppCompatActivity() {
     }
 
     private fun onAuthSuccess(user: FirebaseUser) {
-        Log.d("user0",user.email.toString())
 
         val userdetail = User(user.uid.toString(),SignUp_FullName.text.toString(),SignUp_UserName.text.toString(),user.email,
-            listOf<String>(""),listOf<String>(""),listOf<Post>(Post()))
+            listOf<String>(""),listOf<String>(""),listOf<Post>(Post()),"")
+
         Toast.makeText(this, "Sign up successfull!",Toast.LENGTH_LONG).show()
-        Log.d("user1",userdetail.username.toString())
-
         writeNewUser(userdetail)
-        Log.d("user2",auth.uid.toString())
-
         auth.signOut()
         startActivity(Intent(this,Login::class.java))
         finish()
