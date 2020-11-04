@@ -24,14 +24,15 @@ class BaseActivity : AppCompatActivity() {
                     // Respond to navigation item 2 reselection
                 }
                 R.id.ic_add -> {
-                    //respond to navigation item 3 reselection
+                    startActivity(Intent(this, CreatePost::class.java))
+                    finish()
                 }
                 R.id.ic_activity ->{
 
                 }
                 R.id.ic_profile ->{
-                    val i = Intent(this, ProfileActivity::class.java)
-                    startActivity(i)
+                    startActivity(Intent(this, ProfileActivity::class.java))
+                    finish()
                 }
             }
         }

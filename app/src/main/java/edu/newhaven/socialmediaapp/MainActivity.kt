@@ -3,6 +3,7 @@ package edu.newhaven.socialmediaapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
@@ -31,11 +32,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateUI(currentUser: FirebaseUser?) {
+        Toast.makeText(this,currentUser?.email.toString(),Toast.LENGTH_LONG).show()
+
         if(currentUser != null){
             startActivity(Intent(this, BaseActivity::class.java))
             finish()
-           }
-        startActivity(Intent(this,Login::class.java))
-        finish()
+           }else{
+            startActivity(Intent(this,Login::class.java))
+            finish()
+        }
+
     }
 }
