@@ -9,6 +9,7 @@ import java.util.HashMap
 @IgnoreExtraProperties
 data class Post(
     var uid: String? = "",
+    var username: String? = "",
     var title: String? = "",
     var likes: Int = 0,
     var comments: List<Comment> = listOf<Comment>(),
@@ -20,6 +21,7 @@ data class Post(
     fun toMap(): Map<String, Any?> {
         return mapOf(
             "uid" to uid,
+            "username" to username,
             "title" to title,
             "likes" to likes,
             "comments" to comments,

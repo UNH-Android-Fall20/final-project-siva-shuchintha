@@ -10,6 +10,7 @@ import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -17,6 +18,9 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
+import edu.newhaven.socialmediaapp.models.Comment
+import edu.newhaven.socialmediaapp.models.Post
+import edu.newhaven.socialmediaapp.models.User
 import kotlinx.android.synthetic.main.activity_create_post.*
 
 class CreatePost : AppCompatActivity() {
@@ -24,13 +28,13 @@ class CreatePost : AppCompatActivity() {
     lateinit var filepath: Uri
     private var myUrl = ""
     private var imageUri: Uri? = null
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_post)
-        val db = Firebase.database
-        val myref = db.getReference("message")
-        myref.setValue("HI this is another test code for merge")
+
+        auth = FirebaseAuth.getInstance()
 
         selectImg.setOnClickListener {
             SelectImageFunc()
@@ -55,21 +59,33 @@ class CreatePost : AppCompatActivity() {
             uploadTask = imageFileRef.putFile(filepath!!)
 
             var postURl =
-                uploadTask.continueWithTask(Continuation  <UploadTask.TaskSnapshot, Task<Uri>> { task ->
+                uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
                     if (!task.isSuccessful) {
                         task.exception?.let {
                             throw it
                             pd.dismiss()
                         }
                     } else if (task.isSuccessful) {
+                        var database = Firebase.database.getReference("users").child(auth.uid.toString()).child("posts")
                         val downloadUrl = task.result
                         myUrl = downloadUrl.toString()
-                        val ref = FirebaseDatabase.getInstance().reference.child("posts")
-                        var a = HashMap<String, Any>()
-                        a["Title"] = description.text.toString()
-                        a["url"] = myUrl.toString()
-                        ref.updateChildren(a).addOnSuccessListener {
-                            Log.d("DescriptionUpload", "Done uploading description")
+                        val key = database.push().key
+                        if (key == null) {
+                            Log.w("TAG", "Couldn't get push key for posts")
+                        }
+
+                        var post = Post(auth.uid.toString(),"",description.text.toString(), 0, listOf(Comment("","")),myUrl)
+//                        var a =
+//                        a["Title"] = description.text.toString()
+//                        a["url"] = myUrl.toString()
+//                        val database = Firebase.database
+//                        val myref = database.getReference("users")
+                        val postValues = post.toMap()
+                        val childUpdates = hashMapOf<String, Any>(
+                            "/$key" to postValues,
+                        )
+                        database.updateChildren(childUpdates).addOnCompleteListener {
+                                Log.d("DescriptionUpload", "Done uploading description")
                             pd.dismiss()
                             Toast.makeText(this, "Posted Successfully!", Toast.LENGTH_LONG).show()
                         }.addOnFailureListener {
