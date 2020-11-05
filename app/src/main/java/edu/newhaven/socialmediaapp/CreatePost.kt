@@ -87,10 +87,13 @@ class CreatePost : AppCompatActivity() {
         )
         database.updateChildren(childUpdates).addOnCompleteListener {
             pd.dismiss()
+            val intent = Intent(this@CreatePost,CurrentPost::class.java)
+            intent.putExtra("URL",myUrl)
+            intent.putExtra("Description",description.text.toString())
+            startActivity(intent)
+            Toast.makeText(this,description.text.toString(),Toast.LENGTH_LONG ).show()
             Toast.makeText(this, "Posted Successfully!", Toast.LENGTH_LONG).show()
-            val i = Intent(this@CreatePost,CurrentPost::class.java)
-            i.putExtra("URL",myUrl)
-            startActivity(i)
+
         }.addOnFailureListener {
             pd.dismiss()
             Toast.makeText(this, "Post unsuccessfull!", Toast.LENGTH_LONG).show()
