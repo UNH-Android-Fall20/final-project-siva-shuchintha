@@ -11,7 +11,6 @@ import android.widget.Toast
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -20,7 +19,6 @@ import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
 import edu.newhaven.socialmediaapp.models.Comment
 import edu.newhaven.socialmediaapp.models.Post
-import edu.newhaven.socialmediaapp.models.User
 import kotlinx.android.synthetic.main.activity_create_post.*
 
 class CreatePost : AppCompatActivity() {
@@ -66,36 +64,35 @@ class CreatePost : AppCompatActivity() {
                             pd.dismiss()
                         }
                     } else if (task.isSuccessful) {
-                        var database = Firebase.database.getReference("users").child(auth.uid.toString()).child("posts")
                         val downloadUrl = task.result
                         myUrl = downloadUrl.toString()
-                        val key = database.push().key
-                        if (key == null) {
-                            Log.w("TAG", "Couldn't get push key for posts")
-                        }
-
-                        var post = Post(auth.uid.toString(),"",description.text.toString(), 0, listOf(Comment("","")),myUrl)
-//                        var a =
-//                        a["Title"] = description.text.toString()
-//                        a["url"] = myUrl.toString()
-//                        val database = Firebase.database
-//                        val myref = database.getReference("users")
-                        val postValues = post.toMap()
-                        val childUpdates = hashMapOf<String, Any>(
-                            "/$key" to postValues,
-                        )
-                        database.updateChildren(childUpdates).addOnCompleteListener {
-                                Log.d("DescriptionUpload", "Done uploading description")
-                            pd.dismiss()
-                            Toast.makeText(this, "Posted Successfully!", Toast.LENGTH_LONG).show()
-                        }.addOnFailureListener {
-                            pd.dismiss()
-                            Toast.makeText(this, "Post unsuccessfull!", Toast.LENGTH_LONG).show()
-                        }
+                        PostToDatabase(myUrl,pd)
                     }
                     return@Continuation imageFileRef.downloadUrl
                 })
 
+        }
+    }
+
+    private fun PostToDatabase(myUrl: String, pd: ProgressDialog) {
+        var database = Firebase.database.getReference("users").child(auth.uid.toString()).child("posts")
+        val key = database.push().key
+        if (key == null) {
+            Log.w("TAG", "Couldn't get push key for posts")
+        }
+//        TODO : create post object in a function
+        var post = Post(auth.uid.toString(),"",description.text.toString(), 0, listOf(Comment("","")),myUrl)
+        val postValues = post.toMap()
+        val childUpdates = hashMapOf<String, Any>(
+            "/$key" to postValues,
+        )
+        database.updateChildren(childUpdates).addOnCompleteListener {
+            Log.d("DescriptionUpload", "Done uploading description")
+            pd.dismiss()
+            Toast.makeText(this, "Posted Successfully!", Toast.LENGTH_LONG).show()
+        }.addOnFailureListener {
+            pd.dismiss()
+            Toast.makeText(this, "Post unsuccessfull!", Toast.LENGTH_LONG).show()
         }
     }
 

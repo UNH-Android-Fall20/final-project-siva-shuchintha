@@ -12,7 +12,7 @@ data class Post(
     var username: String? = "",
     var title: String? = "",
     var likes: Int = 0,
-    var comments: List<Comment> = listOf<Comment>(),
+    var comments: List<Comment>? = listOf<Comment>(),
     var image:String = ""
 
 ) {
