@@ -67,7 +67,7 @@ class SignUp : AppCompatActivity() {
                     onAuthSuccess(task.result?.user!!)
 
                 } else {
-                    Toast.makeText(baseContext, "Sign up failed, try later!",
+                    Toast.makeText(baseContext, "Sign up failed, try later!"+task.result.toString(),
                         Toast.LENGTH_SHORT).show()
                 }
             }

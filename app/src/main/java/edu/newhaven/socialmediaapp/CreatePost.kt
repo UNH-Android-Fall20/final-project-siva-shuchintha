@@ -80,16 +80,17 @@ class CreatePost : AppCompatActivity() {
         if (key == null) {
             Log.w("TAG", "Couldn't get push key for posts")
         }
-//        TODO : create post object in a function
         var post = Post(auth.uid.toString(),"",description.text.toString(), 0, listOf(Comment("","")),myUrl)
         val postValues = post.toMap()
         val childUpdates = hashMapOf<String, Any>(
             "/$key" to postValues,
         )
         database.updateChildren(childUpdates).addOnCompleteListener {
-            Log.d("DescriptionUpload", "Done uploading description")
             pd.dismiss()
             Toast.makeText(this, "Posted Successfully!", Toast.LENGTH_LONG).show()
+            val i = Intent(this@CreatePost,CurrentPost::class.java)
+            i.putExtra("URL",myUrl)
+            startActivity(i)
         }.addOnFailureListener {
             pd.dismiss()
             Toast.makeText(this, "Post unsuccessfull!", Toast.LENGTH_LONG).show()
