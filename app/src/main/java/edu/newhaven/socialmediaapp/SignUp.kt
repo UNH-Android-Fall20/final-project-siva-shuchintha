@@ -9,7 +9,8 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.ktx.firestore
+//import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import edu.newhaven.socialmediaapp.models.Post
 import edu.newhaven.socialmediaapp.models.User
@@ -18,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_sign_up.*
 class SignUp : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
-    private lateinit var database: DatabaseReference
+//    private lateinit var database: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,8 +88,12 @@ class SignUp : AppCompatActivity() {
     }
 
     private fun writeNewUser(userdetail:User) {
-        database = Firebase.database.getReference("users")
-        Log.d("user3",userdetail.toString())
-        database.child(userdetail.uid).setValue(userdetail)
+        val db = Firebase.firestore
+        val refToDb = db.collection("users")
+        refToDb.document(userdetail.uid).set(userdetail)
+//        database = Firebase.database.getReference("users")
+//        Log.d("user3",userdetail.toString())
+//        database.child(userdetail.uid).setValue(userdetail)
     }
 }
+

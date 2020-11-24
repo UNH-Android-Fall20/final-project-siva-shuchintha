@@ -10,8 +10,12 @@ import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -27,6 +31,7 @@ class CreatePost : AppCompatActivity() {
     private var myUrl = ""
     private var imageUri: Uri? = null
     private lateinit var auth: FirebaseAuth
+    private lateinit var storageReference: StorageReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,42 +55,48 @@ class CreatePost : AppCompatActivity() {
             pd.setTitle("Uploading...")
             pd.show()
 
-            var imageFileRef: StorageReference = FirebaseStorage.getInstance().reference.child(
+            storageReference = FirebaseStorage.getInstance().getReference(
                 System.currentTimeMillis().toString() + ".jpg"
             )
             var uploadTask: StorageTask<*>
-            uploadTask = imageFileRef.putFile(filepath!!)
+            uploadTask = storageReference.putFile(filepath!!)
 
             var postURl =
-                uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+                uploadTask.continueWithTask { task ->
                     if (!task.isSuccessful) {
                         task.exception?.let {
                             throw it
                             pd.dismiss()
                         }
-                    } else if (task.isSuccessful) {
+                    }
+                    storageReference!!.downloadUrl
+                }.addOnCompleteListener{ task ->
+                    if(task.isSuccessful){
                         val downloadUrl = task.result
-                        myUrl = downloadUrl.toString()
+                        myUrl = downloadUrl!!.toString()
+                        Toast.makeText(this, "url" , Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, myUrl , Toast.LENGTH_SHORT).show()
                         PostToDatabase(myUrl,pd)
                     }
-                    return@Continuation imageFileRef.downloadUrl
-                })
-
+                }
         }
     }
 
     private fun PostToDatabase(myUrl: String, pd: ProgressDialog) {
-        var database = Firebase.database.getReference("users").child(auth.uid.toString()).child("posts")
-        val key = database.push().key
-        if (key == null) {
-            Log.w("TAG", "Couldn't get push key for posts")
-        }
+
+        var database = Firebase.firestore.collection("users").document(auth.uid.toString()).collection("posts")
+//        val key = database.push().key
+//        if (key == null) {
+//            Log.w("TAG", "Couldn't get push key for posts")
+//        }
         var post = Post(auth.uid.toString(),"",description.text.toString(), 0, listOf(Comment("","")),myUrl)
         val postValues = post.toMap()
-        val childUpdates = hashMapOf<String, Any>(
-            "/$key" to postValues,
-        )
-        database.updateChildren(childUpdates).addOnCompleteListener {
+//        val childUpdates = hashMapOf<String, Any>(
+//            "/$filepath" to postValues,
+//        )
+        Toast.makeText(this,"post"  , Toast.LENGTH_LONG).show()
+
+        database.document(Timestamp.now().toString()).set(post).addOnSuccessListener {
             pd.dismiss()
             val intent = Intent(this@CreatePost,CurrentPost::class.java)
             intent.putExtra("URL",myUrl)
@@ -110,6 +121,7 @@ class CreatePost : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null) {
+//            val uploadTask = storageReference!!.putFile()
             filepath = data.data!!
             Log.d("Filepath",filepath.toString())
             imageView.setImageURI(filepath)
