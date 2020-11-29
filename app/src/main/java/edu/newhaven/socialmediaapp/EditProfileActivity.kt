@@ -6,63 +6,82 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import android.widget.Toast
-import com.google.android.gms.tasks.Continuation
-import com.google.android.gms.tasks.Task
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.ktx.database
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.FieldValue
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.StorageTask
-import com.google.firebase.storage.UploadTask
 import edu.newhaven.socialmediaapp.models.Comment
 import edu.newhaven.socialmediaapp.models.Post
 import kotlinx.android.synthetic.main.activity_create_post.*
+import kotlinx.android.synthetic.main.activity_edit_profile.*
 
-class CreatePost : AppCompatActivity() {
-
+class EditProfileActivity : AppCompatActivity() {
     lateinit var filepath: Uri
+    var ref: DatabaseReference? = null
     private var myUrl = ""
-    private var imageUri: Uri? = null
+    var UserFirebase: FirebaseUser? = null
     private lateinit var auth: FirebaseAuth
+    var postUrl: String? = null
+    var postDescription: String? = null
+    var database: DocumentReference? = null
     private lateinit var storageReference: StorageReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_create_post)
-
+        setContentView(R.layout.activity_edit_profile)
         auth = FirebaseAuth.getInstance()
+        database = Firebase.firestore.collection("users").document(auth.uid.toString())
+        database!!.get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    Log.d("TAG0", "DocumentSnapshot data: ${document.data}")
+                    Log.d("TAG01", "DocumentSnapshot data: ${document.data!!["fullname"]}")
 
-        selectImg.setOnClickListener {
+
+                    Toast.makeText(this,document.data.toString(),Toast.LENGTH_SHORT).show()
+
+                    editFullName_text.setText(document.data!!["fullname"].toString())
+                    if(document.data!!["bio"].toString() !== ""){
+                        editBio_text.setText(document.data!!["bio"].toString())
+                    }
+                } else {
+                    Log.d("TAG1", "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("TAG2", "get failed with ", exception)
+            }
+        profilePicChange_button.setOnClickListener {
             SelectImageFunc()
         }
-
-        uploadImg.setOnClickListener {
-            UploadPostWithDescription()
+        saveChanges_button.setOnClickListener {
+            SaveProfileChanges()
         }
-
     }
 
-    private fun UploadPostWithDescription() {
+    private fun SaveProfileChanges() {
         if (filepath != null) {
             var pd = ProgressDialog(this)
             pd.setTitle("Uploading...")
             pd.show()
 
             storageReference = FirebaseStorage.getInstance().getReference(
-                System.currentTimeMillis().toString() + ".jpg"
-            )
+                 UserFirebase!!.uid + ".jpg")
             var uploadTask: StorageTask<*>
             uploadTask = storageReference.putFile(filepath!!)
 
             var postURl =
-                uploadTask.continueWithTask { task ->
+                uploadTask.continueWithTask { task ->1
                     if (!task.isSuccessful) {
                         task.exception?.let {
                             throw it
@@ -76,41 +95,38 @@ class CreatePost : AppCompatActivity() {
                         myUrl = downloadUrl!!.toString()
                         Toast.makeText(this, "url" , Toast.LENGTH_SHORT).show()
                         Toast.makeText(this, myUrl , Toast.LENGTH_SHORT).show()
-                        PostToDatabase(myUrl,pd)
+                        SaveChangesToDb(myUrl,pd)
                     }
                 }
         }
     }
+    private fun SaveChangesToDb(myUrl: String, pd: ProgressDialog) {
 
-    private fun PostToDatabase(myUrl: String, pd: ProgressDialog) {
 
-        var database = Firebase.firestore.collection("users").document(auth.uid.toString()).collection("posts")
-//        val key = database.push().key
-//        if (key == null) {
-//            Log.w("TAG", "Couldn't get push key for posts")
-//        }
-        var post = Post(auth.uid.toString(),"",description.text.toString(), 0, listOf(Comment("","")),myUrl)
-//        val postValues = post.toMap()
-//        val childUpdates = hashMapOf<String, Any>(
-//            "/$filepath" to postValues,
+//
+//        Toast.makeText(this,"prochange"  , Toast.LENGTH_LONG).show()
+//
+//        val data = hashMapOf(
+//            "profileimage" to myUrl,
+//
 //        )
-        Toast.makeText(this,"post"  , Toast.LENGTH_LONG).show()
-
-        database.document(Timestamp.now().toString()).set(post).addOnSuccessListener {
-            pd.dismiss()
-            val intent = Intent(this@CreatePost,CurrentPost::class.java)
-            intent.putExtra("URL",myUrl)
-            intent.putExtra("Description",description.text.toString())
-            startActivity(intent)
-            Toast.makeText(this,description.text.toString(),Toast.LENGTH_LONG ).show()
-            Toast.makeText(this, "Posted Successfully!", Toast.LENGTH_LONG).show()
-
-        }.addOnFailureListener {
-            pd.dismiss()
-
-            Toast.makeText(this, "Post unsuccessfull!", Toast.LENGTH_LONG).show()
-        }
+//        database.set(data, SetOptions.merge())
+//        database.document(Timestamp.now().toString()).set(post).addOnSuccessListener {
+//            pd.dismiss()
+//            val intent = Intent(this,ProfileActivity::class.java)
+//            startActivity(intent)
+//            Toast.makeText(this, "Successfully saved!", Toast.LENGTH_LONG).show()
+//        }.addOnFailureListener {
+//            pd.dismiss()
+//            Toast.makeText(this, "Unsuccessfull!", Toast.LENGTH_LONG).show()
+//        }
     }
+
+    override fun onStart() {
+        super.onStart()
+        UserFirebase = FirebaseAuth.getInstance().currentUser
+    }
+
 
     private fun SelectImageFunc() {
         val i = Intent()
@@ -122,7 +138,6 @@ class CreatePost : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null) {
-//            val uploadTask = storageReference!!.putFile()
             filepath = data.data!!
             Log.d("Filepath",filepath.toString())
             imageView.setImageURI(filepath)

@@ -78,7 +78,7 @@ class SignUp : AppCompatActivity() {
     private fun onAuthSuccess(user: FirebaseUser) {
 
         val userdetail = User(user.uid.toString(),SignUp_FullName.text.toString(),SignUp_UserName.text.toString(),user.email,
-            null,null,null,"")
+            null,null,null,"","")
 
         Toast.makeText(this, "Sign up successfull!",Toast.LENGTH_LONG).show()
         writeNewUser(userdetail)

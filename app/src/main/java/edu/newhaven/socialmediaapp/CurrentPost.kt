@@ -23,8 +23,6 @@ class CurrentPost : AppCompatActivity() {
         val intent = intent
         postUrl=intent.getStringExtra("URL")
         postDescription=intent.getStringExtra("Description")
-        Toast.makeText(this,postUrl,Toast.LENGTH_LONG).show()
-        Log.d("postdes",postUrl!!)
     }
 
     override fun onStart() {
