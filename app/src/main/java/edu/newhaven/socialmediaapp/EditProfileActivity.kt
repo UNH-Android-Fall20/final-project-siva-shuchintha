@@ -1,15 +1,16 @@
 package edu.newhaven.socialmediaapp
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
 import android.util.Log
 import android.widget.Toast
-import com.google.firebase.Timestamp
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.OnFailureListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
@@ -20,11 +21,10 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.StorageTask
-import edu.newhaven.socialmediaapp.models.Comment
-import edu.newhaven.socialmediaapp.models.Post
-import kotlinx.android.synthetic.main.activity_create_post.*
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.activity_sign_up.*
+
 
 class EditProfileActivity : AppCompatActivity() {
     lateinit var filepath: Uri
@@ -32,6 +32,7 @@ class EditProfileActivity : AppCompatActivity() {
     private var myUrl = ""
     var UserFirebase: FirebaseUser? = null
     private lateinit var auth: FirebaseAuth
+    private lateinit var user: FirebaseUser
     var postUrl: String? = null
     var postDescription: String? = null
     var database: DocumentReference? = null
@@ -41,6 +42,7 @@ class EditProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
         auth = FirebaseAuth.getInstance()
+        user = auth.currentUser!!
         database = Firebase.firestore.collection("users").document(auth.uid.toString())
 
         ShowInitialValues()
@@ -51,20 +53,60 @@ class EditProfileActivity : AppCompatActivity() {
         saveChanges_button.setOnClickListener {
             SaveProfileChanges()
         }
+        deleteAcc_button.setOnClickListener {
+            val builder = AlertDialog.Builder(this@EditProfileActivity)
+            builder.setMessage("Are you sure you want to Delete the account?")
+                .setCancelable(false)
+                .setPositiveButton("Yes") { dialog, id ->
+                    DeleteUserAuth()
+
+                }
+                .setNegativeButton("No") { dialog, id ->
+                    dialog.dismiss()
+                }
+            val alert = builder.create()
+            alert.show()
+        }
     }
 
+    private fun DeleteUserAuth(){
+        database!!.delete()
+            .addOnSuccessListener {
+                Log.d("DeleteAccSuccess", "Account successfully deleted!")
+                DeleteUserDataFirestore()
+            }
+            .addOnFailureListener { e -> Log.w("DeleteAccError", "Error deleting Account", e) }
+    }
+
+    private fun DeleteUserDataFirestore(){
+        user.delete()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d("TAG", "User Auth deleted!")
+                    Toast.makeText(this, "Account Deleted Successfully", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this@EditProfileActivity, MainActivity::class.java))
+                    finish()
+                }
+            }.addOnFailureListener { e ->
+                Log.e("TAG", e.message,e)
+            }
+    }
     private fun ShowInitialValues(){
         database!!.get()
             .addOnSuccessListener { document ->
                 if (document != null) {
                     Log.d("TAG0", "DocumentSnapshot data: ${document.data}")
-                    Log.d("TAG01", "DocumentSnapshot data: ${document.data!!["fullname"]}")
-
-                    Toast.makeText(this,document.data.toString(),Toast.LENGTH_SHORT).show()
+                    Log.d("TAG01", "DocumentSnapshot data: ${document.data!!["bio"]}")
+                    if(document.data!!["profileimage"].toString() !== ""){
+                        Picasso.get().load(document.data!!["profileimage"].toString()).into(profile_pic_edit)
+                    }
+                    Toast.makeText(this, document.data.toString(), Toast.LENGTH_SHORT).show()
                     editFullName_text.setText(document.data!!["fullname"].toString())
                     if(document.data!!["bio"].toString() !== ""){
                         editBio_text.setText(document.data!!["bio"].toString())
                     }
+
+
                 } else {
                     Log.d("TAG1", "No such document")
                 }
@@ -81,7 +123,8 @@ class EditProfileActivity : AppCompatActivity() {
             pd.show()
 
             storageReference = FirebaseStorage.getInstance().getReference(
-                 UserFirebase!!.uid + ".jpg")
+                UserFirebase!!.uid + ".jpg"
+            )
             var uploadTask: StorageTask<*>
             uploadTask = storageReference.putFile(filepath!!)
 
@@ -98,9 +141,9 @@ class EditProfileActivity : AppCompatActivity() {
                     if(task.isSuccessful){
                         val downloadUrl = task.result
                         myUrl = downloadUrl!!.toString()
-                        Toast.makeText(this, "url" , Toast.LENGTH_SHORT).show()
-                        Toast.makeText(this, myUrl , Toast.LENGTH_SHORT).show()
-                        SaveChangesToDb(myUrl,pd)
+                        Toast.makeText(this, "url", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, myUrl, Toast.LENGTH_SHORT).show()
+                        SaveChangesToDb(myUrl, pd)
                     }
                 }
         }
@@ -112,7 +155,7 @@ class EditProfileActivity : AppCompatActivity() {
             SignUp_FullName.requestFocus()
             return
         }
-        Toast.makeText(this,"prochange"  , Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "prochange", Toast.LENGTH_LONG).show()
         val data = hashMapOf(
             "profileimage" to myUrl,
             "bio" to editBio_text.text.toString(),
@@ -121,7 +164,7 @@ class EditProfileActivity : AppCompatActivity() {
 
         database!!.set(data, SetOptions.merge()).addOnSuccessListener {
             pd.dismiss()
-            val intent = Intent(this,ProfileActivity::class.java)
+            val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
             Toast.makeText(this, "Successfully saved!", Toast.LENGTH_LONG).show()
         }.addOnFailureListener {
@@ -140,14 +183,14 @@ class EditProfileActivity : AppCompatActivity() {
         val i = Intent()
         i.setType("image/*")
         i.setAction(Intent.ACTION_GET_CONTENT)
-        startActivityForResult(Intent.createChooser(i,"Select Image"), 1)
+        startActivityForResult(Intent.createChooser(i, "Select Image"), 1)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null) {
             filepath = data.data!!
-            Log.d("Filepath",filepath.toString())
+            Log.d("Filepath", filepath.toString())
             profile_pic_edit.setImageURI(filepath)
         } else {
             Toast.makeText(this, "Error image upload", Toast.LENGTH_LONG).show()
