@@ -24,6 +24,7 @@ import edu.newhaven.socialmediaapp.models.Comment
 import edu.newhaven.socialmediaapp.models.Post
 import kotlinx.android.synthetic.main.activity_create_post.*
 import kotlinx.android.synthetic.main.activity_edit_profile.*
+import kotlinx.android.synthetic.main.activity_sign_up.*
 
 class EditProfileActivity : AppCompatActivity() {
     lateinit var filepath: Uri
@@ -41,15 +42,25 @@ class EditProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_edit_profile)
         auth = FirebaseAuth.getInstance()
         database = Firebase.firestore.collection("users").document(auth.uid.toString())
+
+        ShowInitialValues()
+
+        profilePicChange_button.setOnClickListener {
+            SelectImageFunc()
+        }
+        saveChanges_button.setOnClickListener {
+            SaveProfileChanges()
+        }
+    }
+
+    private fun ShowInitialValues(){
         database!!.get()
             .addOnSuccessListener { document ->
                 if (document != null) {
                     Log.d("TAG0", "DocumentSnapshot data: ${document.data}")
                     Log.d("TAG01", "DocumentSnapshot data: ${document.data!!["fullname"]}")
 
-
                     Toast.makeText(this,document.data.toString(),Toast.LENGTH_SHORT).show()
-
                     editFullName_text.setText(document.data!!["fullname"].toString())
                     if(document.data!!["bio"].toString() !== ""){
                         editBio_text.setText(document.data!!["bio"].toString())
@@ -61,18 +72,12 @@ class EditProfileActivity : AppCompatActivity() {
             .addOnFailureListener { exception ->
                 Log.d("TAG2", "get failed with ", exception)
             }
-        profilePicChange_button.setOnClickListener {
-            SelectImageFunc()
-        }
-        saveChanges_button.setOnClickListener {
-            SaveProfileChanges()
-        }
     }
 
     private fun SaveProfileChanges() {
         if (filepath != null) {
             var pd = ProgressDialog(this)
-            pd.setTitle("Uploading...")
+            pd.setTitle("Saving...")
             pd.show()
 
             storageReference = FirebaseStorage.getInstance().getReference(
@@ -100,26 +105,29 @@ class EditProfileActivity : AppCompatActivity() {
                 }
         }
     }
+
     private fun SaveChangesToDb(myUrl: String, pd: ProgressDialog) {
+        if(editFullName_text.text.toString().isEmpty()){
+            SignUp_FullName.error = "Full Name missing!"
+            SignUp_FullName.requestFocus()
+            return
+        }
+        Toast.makeText(this,"prochange"  , Toast.LENGTH_LONG).show()
+        val data = hashMapOf(
+            "profileimage" to myUrl,
+            "bio" to editBio_text.text.toString(),
+            "fullname" to editFullName_text.text.toString()
+        )
 
-
-//
-//        Toast.makeText(this,"prochange"  , Toast.LENGTH_LONG).show()
-//
-//        val data = hashMapOf(
-//            "profileimage" to myUrl,
-//
-//        )
-//        database.set(data, SetOptions.merge())
-//        database.document(Timestamp.now().toString()).set(post).addOnSuccessListener {
-//            pd.dismiss()
-//            val intent = Intent(this,ProfileActivity::class.java)
-//            startActivity(intent)
-//            Toast.makeText(this, "Successfully saved!", Toast.LENGTH_LONG).show()
-//        }.addOnFailureListener {
-//            pd.dismiss()
-//            Toast.makeText(this, "Unsuccessfull!", Toast.LENGTH_LONG).show()
-//        }
+        database!!.set(data, SetOptions.merge()).addOnSuccessListener {
+            pd.dismiss()
+            val intent = Intent(this,ProfileActivity::class.java)
+            startActivity(intent)
+            Toast.makeText(this, "Successfully saved!", Toast.LENGTH_LONG).show()
+        }.addOnFailureListener {
+            pd.dismiss()
+            Toast.makeText(this, "Unsuccessfull!", Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun onStart() {
@@ -140,7 +148,7 @@ class EditProfileActivity : AppCompatActivity() {
         if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null) {
             filepath = data.data!!
             Log.d("Filepath",filepath.toString())
-            imageView.setImageURI(filepath)
+            profile_pic_edit.setImageURI(filepath)
         } else {
             Toast.makeText(this, "Error image upload", Toast.LENGTH_LONG).show()
         }

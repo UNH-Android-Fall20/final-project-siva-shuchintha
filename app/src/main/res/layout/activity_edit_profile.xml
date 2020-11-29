@@ -9,7 +9,7 @@
 
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/profile_pic_edit"
         android:layout_width="199dp"
         android:layout_height="151dp"
         android:layout_alignParentTop="true"
