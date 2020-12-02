@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.ActionBar
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import edu.newhaven.socialmediaapp.Fragments.UserSearchFragment
 
 class BaseActivity : AppCompatActivity() {
     lateinit var toolbar: ActionBar
@@ -21,7 +22,9 @@ class BaseActivity : AppCompatActivity() {
                     startActivity(i)
                 }
                 R.id.ic_search -> {
-                    // Respond to navigation item 2 reselection
+                    val fragmentTrans = supportFragmentManager.beginTransaction()
+                    fragmentTrans.replace(R.id.fragment_container, UserSearchFragment())
+                    fragmentTrans.commit()
                 }
                 R.id.ic_add -> {
                     startActivity(Intent(this, CreatePost::class.java))
