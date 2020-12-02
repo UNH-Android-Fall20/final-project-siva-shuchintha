@@ -5,24 +5,32 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.UserSearchFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <EditText
-        android:id="@+id/search_user_editText"
-        android:layout_width="378dp"
-        android:layout_height="41dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="9dp"
-        android:layout_marginBottom="554dp"
-        android:text="Search" />
+            <RelativeLayout
+                android:id="@+id/relativeLayoutSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/user_search_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginEnd="15dp"
+                    android:textColor="@color/colorPrimary"
+                    android:hint="Search..."
+                    />
+
+            </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/user_search_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/search_user_editText"/>
+        android:visibility="gone"
+        android:layout_below="@+id/relativeLayoutSearch"
+        >
+    </androidx.recyclerview.widget.RecyclerView>
+
 
 
 </RelativeLayout>

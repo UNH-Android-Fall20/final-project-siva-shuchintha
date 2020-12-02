@@ -1,48 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:padding="20px">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="30px"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        >
+        android:layout_height="wrap_content">
+
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/other_user_profile_image"
             android:layout_width="120dp"
             android:layout_height="120dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="6dp"
+            android:padding="5dp"
             tools:srcCompat="@tools:sample/avatars" />
-
 
         <TextView
             android:id="@+id/other_username_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="29dp"
-            android:layout_marginEnd="191dp"
+            android:layout_above="@+id/other_user_profile_image"
+            android:layout_marginTop="-5dp"
+            android:layout_marginEnd="135dp"
+            android:layout_marginBottom="-41dp"
+            android:layout_toStartOf="@+id/other_user_profile_image"
             android:gravity="center"
-            android:text="Username" />
+            android:text="user name"
+            android:textSize="12dp" />
 
-        <Button
-            android:id="@+id/follow_otheruser_button"
-            android:layout_width="90dp"
-            android:layout_height="30dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="71dp"
-            android:layout_marginEnd="169dp"
-            android:layout_marginBottom="10dp"
-            android:text="Follow"
-            android:textAllCaps="false" />
+        <TextView
+            android:id="@+id/other_fullname_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/other_username_textView"
+            android:layout_marginEnd="113dp"
+            android:layout_marginBottom="-40dp"
+            android:layout_toStartOf="@+id/other_user_profile_image"
+            android:gravity="center"
+            android:text="user profile name"
+            android:textSize="12dp" />
 
 
     </RelativeLayout>
-
 
 </RelativeLayout>
