@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.activity_profile.*
 class ProfileActivity: AppCompatActivity() {
     private lateinit var profileId: String
     private lateinit var CurrentUser: FirebaseUser
-    private val data = hashMapOf("value" to "true")
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
