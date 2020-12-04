@@ -34,6 +34,7 @@ class ProfileActivity: AppCompatActivity() {
             startActivity(Intent(this,EditProfileActivity::class.java))
             finish()
         }
+
         FetchUserDetails()
     }
 
@@ -50,7 +51,6 @@ class ProfileActivity: AppCompatActivity() {
                     Log.d("TagUser", "DocumentSnapshot data: ${document.data!!["bio"]}")
                     if(document.data!!["profileimage"].toString() !== ""){
                         Log.d("TAG0", "DocumentSnapshot data: ${document.data!!["profileimage"].toString()}")
-
                         Picasso.get().load(document.data!!["profileimage"].toString()).into(ProfileImage_Imageview)
                     }
                     UserName_textView.setText(document.data!!["username"].toString())

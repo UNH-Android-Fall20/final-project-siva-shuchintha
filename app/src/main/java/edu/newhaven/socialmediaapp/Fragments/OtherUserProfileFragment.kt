@@ -1,60 +1,106 @@
 package edu.newhaven.socialmediaapp.Fragments
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.squareup.picasso.Picasso
+import edu.newhaven.socialmediaapp.EditProfileActivity
 import edu.newhaven.socialmediaapp.R
+import kotlinx.android.synthetic.main.activity_profile.*
+import kotlinx.android.synthetic.main.fragment_other_user_profile.*
+import kotlinx.android.synthetic.main.fragment_other_user_profile.view.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [OtherUserProfileFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class OtherUserProfileFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var OtherUser: String
+    private lateinit var CurrentUser: FirebaseUser
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        arguments?.let {
+//        }
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_other_user_profile, container, false)
+         val view = inflater.inflate(R.layout.fragment_other_user_profile, container, false)
+
+        CurrentUser = FirebaseAuth.getInstance().currentUser!!
+
+        val preference = context?.getSharedPreferences("USER", Context.MODE_PRIVATE)
+        if (preference != null)
+        {
+            this.OtherUser = preference.getString("OtherUser", "null")!!
+            Log.d("tagabc","pref"+ OtherUser.toString())
+            FetchUserFollowStatus()
+        }
+
+        FetchUserDetails()
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment OtherUserProfileFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            OtherUserProfileFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun FetchUserFollowStatus() {
+        val followingRef =
+            Firebase.firestore.collection("Follow").document(CurrentUser?.uid)
+                .collection("Following")
+        Log.d("tagabc", "profile11111 "+ OtherUser )
+        followingRef.document(OtherUser).addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.d("tagabc", "profil22efrag")
+                return@addSnapshotListener
+            }
+            Log.d("tagabc", "profil33efrag " + snapshot?.data.toString())
+
+            if (snapshot != null && snapshot.exists()) {
+                view?.followButtonOtherUser?.text = "Following"
+                Log.d("tagabc", "profil33e111frag " + snapshot?.exists().toString())
+
+            } else {
+                view?.followButtonOtherUser?.text = "Follow"
+                Log.d("tagabc", "profil33efrag " + snapshot?.exists().toString())
+
+            }
+        }
+    }
+
+    private fun FetchUserDetails() {
+        FetchUsername_Bio_Fullname_Image()
+    }
+
+    private fun FetchUsername_Bio_Fullname_Image() {
+        val usersRef = Firebase.firestore.collection("users").document(OtherUser)
+
+        usersRef.get().addOnSuccessListener { document ->
+            if (document != null) {
+                Log.d("TagUser", "DocumentSnapshot data: ${document.data}")
+                Log.d("TagUser", "DocumentSnapshot data: ${document.data!!["bio"]}")
+                if(document.data!!["profileimage"].toString() !== ""){
+                    Log.d("TAG0", "DocumentSnapshot data: ${document.data!!["profileimage"].toString()}")
+                    Picasso.get().load(document.data!!["profileimage"].toString()).into(ProfileImageOtherUser_Imageview)
                 }
+                UserNameOtherUser_textView.setText(document.data!!["username"].toString())
+                FullNameOtherUser_textView.setText(document.data!!["fullname"].toString())
+                if(document.data!!["bio"].toString() !== ""){
+                    BioOtherUser_textView.setText(document.data!!["bio"].toString())
+                }
+            } else {
+                Log.d("TagUser", "error finding doc")
+            }
+        }
+            .addOnFailureListener { exception ->
+                Log.d("TagUser", "got failed with ", exception)
             }
     }
+
 }

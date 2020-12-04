@@ -9,8 +9,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.NonNull
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import edu.newhaven.socialmediaapp.Fragments.OtherUserProfileFragment
 import edu.newhaven.socialmediaapp.models.User
 import edu.newhaven.socialmediaapp.R
 
@@ -36,6 +38,15 @@ class UserItemAdapter (private var context: Context,
         holder.usernameOtherUserText.text = userItem.username
         holder.fullnameOtherUserText.text = userItem.fullname
         Picasso.get().load(userItem.profileimage).placeholder(R.drawable.ic_logo).into(holder.userProfileImage)
+
+        holder.itemView.setOnClickListener(View.OnClickListener {
+            val preference = context.getSharedPreferences("USER", Context.MODE_PRIVATE).edit()
+            preference.putString("OtherUser", userItem.uid)
+            preference.apply()
+
+            (context as FragmentActivity).supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, OtherUserProfileFragment()).commit()
+        })
     }
 
 

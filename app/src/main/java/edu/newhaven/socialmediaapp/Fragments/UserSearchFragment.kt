@@ -12,6 +12,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -24,6 +26,7 @@ import kotlinx.android.synthetic.main.fragment_user_search.view.*
 class UserSearchFragment : Fragment() {
     private var recyclerView: RecyclerView? = null
     private var userItemAdapter: UserItemAdapter? = null
+    private lateinit var CurrentUser: FirebaseUser
     private var userList: MutableList<User>? = null
 
 //    override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +42,7 @@ class UserSearchFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_user_search, container, false)
 
-
+        CurrentUser = FirebaseAuth.getInstance().currentUser!!
         recyclerView = view.findViewById(R.id.user_search_recyclerView)
         recyclerView?.setHasFixedSize(true)
         recyclerView?.layoutManager = LinearLayoutManager(context)
@@ -82,10 +85,12 @@ class UserSearchFragment : Fragment() {
                 userList?.clear()
                 for (document in result) {
                     Log.d("TAG11111", "${document.id} => ${document.data}")
-                    val user = document.toObject<User>()
-                    if (user != null)
+                    val otherUser = document.toObject<User>()
+
+
+                    if (otherUser != null && otherUser.uid != CurrentUser.uid)
                     {
-                        userList?.add(user)
+                        userList?.add(otherUser)
                     }
                 }
                 userItemAdapter?.notifyDataSetChanged()
@@ -108,10 +113,10 @@ class UserSearchFragment : Fragment() {
             userList?.clear()
             for (document in result) {
                 Log.d("TAG22222", "${document.id} => ${document.data}")
-                val user = document.toObject<User>()
-                if (user != null)
+                val otherUser = document.toObject<User>()
+                if (otherUser != null && otherUser.uid != CurrentUser.uid)
                 {
-                    userList?.add(user)
+                    userList?.add(otherUser)
                 }
             }
             userItemAdapter?.notifyDataSetChanged()
