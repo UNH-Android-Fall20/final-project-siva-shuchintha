@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.activity_sign_up.*
 
 
 class EditProfileActivity : AppCompatActivity() {
-    lateinit var filepath: Uri
+    private var filepath: Uri? = null
     var ref: DatabaseReference? = null
     private var myUrl = ""
     var UserFirebase: FirebaseUser? = null
@@ -46,27 +46,37 @@ class EditProfileActivity : AppCompatActivity() {
         database = Firebase.firestore.collection("users").document(auth.uid.toString())
 
         ShowInitialValues()
-
+        filepath = null
         profilePicChange_button.setOnClickListener {
             SelectImageFunc()
         }
         saveChanges_button.setOnClickListener {
             SaveProfileChanges()
         }
-        deleteAcc_button.setOnClickListener {
-            val builder = AlertDialog.Builder(this@EditProfileActivity)
-            builder.setMessage("Are you sure you want to Delete the account?")
-                .setCancelable(false)
-                .setPositiveButton("Yes") { dialog, id ->
-                    DeleteUserAuth()
 
-                }
-                .setNegativeButton("No") { dialog, id ->
-                    dialog.dismiss()
-                }
-            val alert = builder.create()
-            alert.show()
+        deleteAcc_button.setOnClickListener {
+            DeleteAccount()
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        UserFirebase = FirebaseAuth.getInstance().currentUser
+    }
+
+    private fun DeleteAccount() {
+        val builder = AlertDialog.Builder(this@EditProfileActivity)
+        builder.setMessage("Are you sure you want to Delete the account?")
+            .setCancelable(false)
+            .setPositiveButton("Yes") { dialog, id ->
+                DeleteUserAuth()
+
+            }
+            .setNegativeButton("No") { dialog, id ->
+                dialog.dismiss()
+            }
+        val alert = builder.create()
+        alert.show()
     }
 
     private fun DeleteUserAuth(){
@@ -91,6 +101,7 @@ class EditProfileActivity : AppCompatActivity() {
                 Log.e("TAG", e.message,e)
             }
     }
+
     private fun ShowInitialValues(){
         database!!.get()
             .addOnSuccessListener { document ->
@@ -98,7 +109,8 @@ class EditProfileActivity : AppCompatActivity() {
                     Log.d("TAG0", "DocumentSnapshot data: ${document.data}")
                     Log.d("TAG01", "DocumentSnapshot data: ${document.data!!["bio"]}")
                     if(document.data!!["profileimage"].toString() !== ""){
-                        Picasso.get().load(document.data!!["profileimage"].toString()).into(profile_pic_edit)
+                        myUrl = document.data!!["profileimage"].toString()
+                        Picasso.get().load(myUrl).into(profile_pic_edit)
                     }
                     Toast.makeText(this, document.data.toString(), Toast.LENGTH_SHORT).show()
                     editFullName_text.setText(document.data!!["fullname"].toString())
@@ -117,6 +129,7 @@ class EditProfileActivity : AppCompatActivity() {
     }
 
     private fun SaveProfileChanges() {
+
         if (filepath != null) {
             var pd = ProgressDialog(this)
             pd.setTitle("Saving...")
@@ -146,16 +159,26 @@ class EditProfileActivity : AppCompatActivity() {
                         SaveChangesToDb(myUrl, pd)
                     }
                 }
+        }else{
+            var pd = ProgressDialog(this)
+            pd.setTitle("Saving...")
+            pd.show()
+            SaveChangesToDb(myUrl,pd)
+
         }
     }
 
     private fun SaveChangesToDb(myUrl: String, pd: ProgressDialog) {
         if(editFullName_text.text.toString().isEmpty()){
-            SignUp_FullName.error = "Full Name missing!"
-            SignUp_FullName.requestFocus()
+            editFullName_text.error = "Full Name missing!"
+            editFullName_text.requestFocus()
             return
         }
-        Toast.makeText(this, "prochange", Toast.LENGTH_LONG).show()
+        if(editBio_text.text.toString().isEmpty()){
+            editBio_text.error = "Bio missing!"
+            editBio_text.requestFocus()
+            return
+        }
         val data = hashMapOf(
             "profileimage" to myUrl,
             "bio" to editBio_text.text.toString(),
@@ -173,10 +196,7 @@ class EditProfileActivity : AppCompatActivity() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        UserFirebase = FirebaseAuth.getInstance().currentUser
-    }
+
 
 
     private fun SelectImageFunc() {
@@ -196,4 +216,5 @@ class EditProfileActivity : AppCompatActivity() {
             Toast.makeText(this, "Error image upload", Toast.LENGTH_LONG).show()
         }
     }
+
 }
