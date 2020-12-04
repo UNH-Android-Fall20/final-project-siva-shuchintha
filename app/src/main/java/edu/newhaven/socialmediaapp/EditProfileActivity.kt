@@ -111,6 +111,7 @@ class EditProfileActivity : AppCompatActivity() {
                     if(document.data!!["profileimage"].toString() !== ""){
                         myUrl = document.data!!["profileimage"].toString()
                         Picasso.get().load(myUrl).into(profile_pic_edit)
+
                     }
                     Toast.makeText(this, document.data.toString(), Toast.LENGTH_SHORT).show()
                     editFullName_text.setText(document.data!!["fullname"].toString())
