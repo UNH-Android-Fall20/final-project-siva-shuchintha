@@ -108,7 +108,6 @@ class UserSearchFragment : Fragment() {
         val usersRef = Firebase.firestore.collection("users")
 //            .orderBy("fullname")
         usersRef.get().addOnSuccessListener { result ->
-//            if (view?.search_edit_text?.text.toString() == "") {
             Log.d("TAG002", "bbbb")
             userList?.clear()
             for (document in result) {
@@ -120,7 +119,6 @@ class UserSearchFragment : Fragment() {
                 }
             }
             userItemAdapter?.notifyDataSetChanged()
-//            }
         }
             .addOnFailureListener { exception ->
                 Log.d("TAG22222", "Error getting documents: ", exception)

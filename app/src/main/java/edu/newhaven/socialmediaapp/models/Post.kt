@@ -11,9 +11,10 @@ data class Post(
     var uid: String? = "",
     var username: String? = "",
     var title: String? = "",
-    var likes: Int = 0,
-    var comments: List<Comment>? = listOf<Comment>(),
-    var image:String = ""
+    var image:String = "",
+    var postid: String = "",
+    var timestamp: String = "",
+
 
 ) {
 
@@ -23,9 +24,9 @@ data class Post(
             "uid" to uid,
             "username" to username,
             "title" to title,
-            "likes" to likes,
-            "comments" to comments,
-            "image" to image
+            "image" to image,
+            "postid" to postid,
+        "timestamp"  to timestamp
         )
     }
 }

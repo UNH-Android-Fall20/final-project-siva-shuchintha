@@ -72,11 +72,9 @@ class OtherUserProfileFragment : Fragment() {
     }
 
     private fun FetchUserFollowStatus() {
-        val followingRef =
-            Firebase.firestore.collection("follow_and_following").document(CurrentUser?.uid)
-                .collection("followingUid")
         Log.d("tagabc", "profile11111 "+ OtherUser )
-        followingRef.document(OtherUser).addSnapshotListener { snapshot, e ->
+        Firebase.firestore.collection("follow_and_following").document(CurrentUser?.uid)
+                .collection("followingUid").document(OtherUser).addSnapshotListener { snapshot, e ->
             if (e != null) {
                 Log.d("tagabc", "profil22efrag")
                 return@addSnapshotListener
@@ -97,9 +95,62 @@ class OtherUserProfileFragment : Fragment() {
 
 
     private fun FetchUserDetails() {
-        val usersRef = Firebase.firestore.collection("users").document(OtherUser)
+        GetUserDetailsFromUsersCollection()
+        GetUserFollowCountFromFollowersCollection()
+    }
 
-        usersRef.get().addOnSuccessListener { document ->
+    private fun GetUserFollowCountFromFollowersCollection() {
+        FetchFollowCount()
+        FetchFollowingCount()
+    }
+
+    private fun FetchFollowCount() {
+        Log.d("tagabc", "followers profileId = " + OtherUser)
+        var count = 0
+        Firebase.firestore.collection("follow_and_following")
+            .document(OtherUser)
+            .collection("followersUid")
+            .get().addOnSuccessListener { documents ->
+            Log.d("tagabc","ddd "+ documents!!.isEmpty())
+
+            for (document in documents) {
+                Log.d("tagabc", "${document.id} => ${document.data}")
+                count++
+            }
+            view?.numberofFollowersOtherUser_textView?.text = count.toString()
+
+        }
+            .addOnFailureListener { exception ->
+//                Log.w(TAG, "Error getting documents: ", exception)
+            }
+    }
+
+    private fun FetchFollowingCount() {
+        Log.d("tagabc", "followings profileId = " + OtherUser)
+        var count = 0
+        Firebase.firestore.collection("follow_and_following")
+            .document(OtherUser)
+            .collection("followingUid")
+            .get().addOnSuccessListener { result ->
+            Log.d("tagabc", "aaa"+result.documents.toString())
+
+            for (document in result) {
+                Log.d("tagabc", "aaa"+"${document.id} => ${document.data}")
+
+                count++
+
+            }
+            view?.numberofFollowingOtherUser_textView?.text = count.toString()
+
+        }.addOnFailureListener { exception ->
+            Log.d("tagabc", "Error getting documents: ", exception)
+        }
+    }
+
+    private fun GetUserDetailsFromUsersCollection() {
+        Firebase.firestore.collection("users")
+            .document(OtherUser)
+            .get().addOnSuccessListener { document ->
             if (document != null) {
                 Log.d("TagUser", "DocumentSnapshot data: ${document.data}")
                 Log.d("TagUser", "DocumentSnapshot data: ${document.data!!["bio"]}")
