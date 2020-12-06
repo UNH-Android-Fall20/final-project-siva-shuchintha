@@ -16,10 +16,12 @@ import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import edu.newhaven.socialmediaapp.R
 import kotlinx.android.synthetic.main.fragment_current_post.*
+import kotlinx.android.synthetic.main.fragment_current_post.view.*
 
 class CurrentPostFragment : Fragment() {
     private lateinit var CurrentUser: FirebaseUser
     private lateinit var postID: String
+    private val data = hashMapOf("value" to true)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,8 +36,27 @@ class CurrentPostFragment : Fragment() {
             Log.d("tagabc","PostID"+ postID.toString())
             FetchPostDetails(postID)
         }
-        Firebase.firestore.collection("posts").document(postID)
+
+        view.CurrentLikes_post_button.setOnClickListener {
+            AddUserLiked()
+        }
         return view
+    }
+
+    private fun AddUserLiked() {
+        if(CurrentLikes_post_button.text == "Like"){
+            Firebase.firestore.collection("posts")
+                .document(postID)
+                .collection("likes")
+                .document(CurrentUser!!.uid)
+                .set(data)
+        }else if(CurrentLikes_post_button.text == "Liked"){
+            Firebase.firestore.collection("posts")
+                .document(postID)
+                .collection("likes")
+                .document(CurrentUser!!.uid)
+                .delete()
+        }
     }
 
     private fun FetchPostDetails(postID: String) {

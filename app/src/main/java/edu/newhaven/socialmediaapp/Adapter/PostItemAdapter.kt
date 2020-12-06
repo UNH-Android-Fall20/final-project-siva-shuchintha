@@ -53,7 +53,7 @@ class PostItemAdapter (private var context: Context,
         Picasso.get().load(postItem.image).placeholder(R.drawable.ic_logo).into(holder.PostImage_imageView)
         UpdateLikeStatus(postItem,holder.Likes_post_button)
         holder.Likes_post_button.setOnClickListener {
-            updateLikeStatus(postItem,holder.Likes_post_button)
+            AddUserLiked(postItem,holder.Likes_post_button)
         }
         holder.save_comments_button.setOnClickListener {
             saveComment(postItem,holder.addComment_editText)
@@ -112,7 +112,7 @@ class PostItemAdapter (private var context: Context,
         Log.d("comment", "Comment successfull")
     }
 
-    private fun updateLikeStatus(postItem: Post, likesPostButton: Button) {
+    private fun AddUserLiked(postItem: Post, likesPostButton: Button) {
         if(likesPostButton.text == "Like"){
             Firebase.firestore.collection("posts")
                 .document(postItem.postid)

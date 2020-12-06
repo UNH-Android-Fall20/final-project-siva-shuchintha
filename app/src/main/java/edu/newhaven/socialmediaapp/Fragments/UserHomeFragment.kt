@@ -20,6 +20,7 @@ import edu.newhaven.socialmediaapp.Adapter.UserItemAdapter
 import edu.newhaven.socialmediaapp.R
 import edu.newhaven.socialmediaapp.models.Post
 import edu.newhaven.socialmediaapp.models.User
+import kotlinx.android.synthetic.main.fragment_current_post.view.*
 import kotlinx.android.synthetic.main.postcard_homefrag.view.*
 
 class UserHomeFragment : Fragment() {
@@ -45,7 +46,6 @@ class UserHomeFragment : Fragment() {
         postItemAdapter = context?.let { PostItemAdapter(it, postList as ArrayList<Post>, true) }
         recyclerView?.adapter = postItemAdapter
         getPostList()
-
         return view
     }
 
