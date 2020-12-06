@@ -91,6 +91,9 @@ class PostItemAdapter (private var context: Context,
             .collection("comments")
             .document(idcomment)
             .set(comment)
+            .addOnCompleteListener {
+                addcommentEdittext.text.clear()
+            }
         Log.d("comment", "Comment successfull")
     }
 
