@@ -17,8 +17,6 @@ import com.squareup.picasso.Picasso
 import edu.newhaven.socialmediaapp.R
 import edu.newhaven.socialmediaapp.models.Comment
 import edu.newhaven.socialmediaapp.models.Post
-import kotlinx.android.synthetic.main.activity_create_post.*
-import kotlinx.android.synthetic.main.activity_sign_up.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -28,7 +26,6 @@ class PostItemAdapter (private var context: Context,
                        private var isFragment: Boolean = false) : RecyclerView.Adapter<PostItemAdapter.ViewHolder>() {
 
     private var CurrentUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
-    private var userName = ""
     private val data = hashMapOf("value" to true)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostItemAdapter.ViewHolder {
@@ -63,22 +60,31 @@ class PostItemAdapter (private var context: Context,
             addcommentEdittext.requestFocus()
             return
         }
+        var userName = ""
+
         Firebase.firestore.collection("users").document(CurrentUser!!.uid)
             .get().addOnSuccessListener { document ->
                 if (document != null) {
+                    Log.d("user name", document.data!!["username"].toString())
                     userName = document.data!!["username"].toString()
-                    Log.d("user name", userName)
+                    setCommentToFirestore(userName, addcommentEdittext, postItem)
                 }else {
                     Log.d("post", "error finding doc")
                 }
             }.addOnFailureListener { exception ->
                 Log.d("post", "got failed with ", exception)
             }
+
+    }
+
+    private fun setCommentToFirestore(userName: String, addcommentEdittext: EditText, postItem: Post) {
+        Log.d("USERNAMEHERE", userName.toString())
         val dNow = Date()
         val ft = SimpleDateFormat("yyMMddhhmmssMs")
         var timestamp = ft.format(dNow)
-        Log.d("comm", userName.toString())
-        var comment = Comment(userName, addcommentEdittext.text.toString(),timestamp)
+        Log.d("USERNAMEHERE", userName.toString())
+
+        var comment = Comment(userName.toString(), addcommentEdittext.text.toString(),timestamp)
         val idcomment = timestamp + CurrentUser!!.uid
         Firebase.firestore.collection("posts")
             .document(postItem.postid)
@@ -86,10 +92,6 @@ class PostItemAdapter (private var context: Context,
             .document(idcomment)
             .set(comment)
         Log.d("comment", "Comment successfull")
-    }
-
-    private fun getUserName() {
-
     }
 
     private fun updateLikeStatus(postItem: Post, likesPostButton: Button) {
