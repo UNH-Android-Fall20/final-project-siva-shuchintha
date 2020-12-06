@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.UserHomeFragment">
+    tools:context=".Fragments.UserHomeFragment"
+    android:layout_above="@+id/bottomNavViewBar">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/posts_homeFrag_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
-    </androidx.recyclerview.widget.RecyclerView>
-
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="49dp"></androidx.recyclerview.widget.RecyclerView>
 
 </RelativeLayout>

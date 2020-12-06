@@ -46,6 +46,26 @@ class PostItemAdapter (private var context: Context,
         holder.Title_post_textView.text = postItem.title
         Picasso.get().load(postItem.image).placeholder(R.drawable.ic_logo).into(holder.PostImage_imageView)
         UpdateLikeStatus(postItem,holder.Likes_post_button)
+        holder.Likes_post_button.setOnClickListener {
+            updateLikeStatus(postItem,holder.Likes_post_button)
+        }
+
+    }
+
+    private fun updateLikeStatus(postItem: Post, likesPostButton: Button) {
+        if(likesPostButton.text == "Like"){
+            Firebase.firestore.collection("posts")
+                .document(postItem.postid)
+                .collection("likes")
+                .document(CurrentUser!!.uid)
+                .set(data)
+        }else if(likesPostButton.text == "Liked"){
+            Firebase.firestore.collection("posts")
+                .document(postItem.postid)
+                .collection("likes")
+                .document(CurrentUser!!.uid)
+                .delete()
+        }
 
     }
 
@@ -67,6 +87,8 @@ class PostItemAdapter (private var context: Context,
                     Log.d("postadapter", "profil33e111frag " + snapshot?.exists().toString())
                 } else {
                    likesPostButton?.text = "Like"
+                    likesPostButton.setBackgroundColor(Color.BLACK)
+
                     Log.d("postadapter", "profil33efrag " + snapshot?.exists().toString())
                 }
             }

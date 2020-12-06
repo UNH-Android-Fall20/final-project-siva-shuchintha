@@ -25,11 +25,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/user_search_recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        android:layout_below="@+id/relativeLayoutSearch"
-        >
-    </androidx.recyclerview.widget.RecyclerView>
+        android:layout_height="514dp"
+        android:layout_below="@+id/relativeLayoutSearch"></androidx.recyclerview.widget.RecyclerView>
 
 
 

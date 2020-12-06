@@ -47,7 +47,6 @@ class UserSearchFragment : Fragment() {
         recyclerView?.setHasFixedSize(true)
         recyclerView?.layoutManager = LinearLayoutManager(context)
 
-        recyclerView?.visibility = View.VISIBLE
         getUserList()
         userList = ArrayList()
         userItemAdapter = context?.let { UserItemAdapter(it, userList as ArrayList<User>, true) }
