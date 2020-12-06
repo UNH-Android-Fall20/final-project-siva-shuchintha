@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -41,14 +42,14 @@ class UserHomeFragment : Fragment() {
         postList = ArrayList()
         postItemAdapter = context?.let { PostItemAdapter(it, postList as ArrayList<Post>, true) }
         recyclerView?.adapter = postItemAdapter
-//            .orderBy("fullname")
-        val usersRef = Firebase.firestore.collection("posts")
+
+        val usersRef = Firebase.firestore.collection("posts").orderBy("timestamp", Query.Direction.DESCENDING)
         usersRef.get().addOnSuccessListener { result ->
             postList?.clear()
             for (document in result) {
                 Log.d("TAG22222", "${document.id} => ${document.data}")
                 val post = document.toObject<Post>()
-                if (post != null)
+                if (post != null && post.uid != CurrentUser.uid)
                 {
                     postList?.add(post)
                 }
