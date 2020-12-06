@@ -44,6 +44,7 @@ class CommentsAdapter (private var context: Context,
         Log.d("TAG333", "postsss1")
         holder.username_comments_textView.text = commentItem.username
         holder.comment_textView.text = commentItem.comment
+
     }
 
     class ViewHolder(@NonNull itemView: View) : RecyclerView.ViewHolder(itemView) {

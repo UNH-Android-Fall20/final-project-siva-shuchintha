@@ -8,12 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.NonNull
+import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
+import edu.newhaven.socialmediaapp.Fragments.CurrentPostFragment
+import edu.newhaven.socialmediaapp.Fragments.OtherUserProfileFragment
 import edu.newhaven.socialmediaapp.R
 import edu.newhaven.socialmediaapp.models.Comment
 import edu.newhaven.socialmediaapp.models.Post
@@ -27,6 +31,8 @@ class PostItemAdapter (private var context: Context,
 
     private var CurrentUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     private val data = hashMapOf("value" to true)
+    private var recyclerView: RecyclerView? = null
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostItemAdapter.ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.postcard_homefrag, parent, false)
@@ -52,6 +58,15 @@ class PostItemAdapter (private var context: Context,
         holder.save_comments_button.setOnClickListener {
             saveComment(postItem,holder.addComment_editText)
         }
+
+        holder.Comments_post_textView.setOnClickListener(View.OnClickListener {
+            val preference = context.getSharedPreferences("POST", Context.MODE_PRIVATE).edit()
+            preference.putString("PostID", postItem.postid)
+            preference.apply()
+
+            (context as FragmentActivity).supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, CurrentPostFragment()).commit()
+        })
     }
 
     private fun saveComment(postItem: Post, addcommentEdittext: EditText) {
@@ -146,5 +161,7 @@ class PostItemAdapter (private var context: Context,
         var Likes_post_button: Button = itemView.findViewById(R.id.Likes_post_button)
         var addComment_editText: EditText = itemView.findViewById(R.id.addComment_editText)
         var save_comments_button: Button = itemView.findViewById(R.id.save_comments_button)
+        var Comments_post_textView: TextView = itemView.findViewById(R.id.Comments_post_textView)
+
     }
 }

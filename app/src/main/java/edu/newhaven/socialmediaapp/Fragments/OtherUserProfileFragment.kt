@@ -21,11 +21,6 @@ class OtherUserProfileFragment : Fragment() {
     private lateinit var OtherUser: String
     private lateinit var CurrentUser: FirebaseUser
     private val data = hashMapOf("value" to "true")
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        arguments?.let {
-//        }
-//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

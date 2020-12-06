@@ -46,7 +46,6 @@ class UserHomeFragment : Fragment() {
         recyclerView?.adapter = postItemAdapter
         getPostList()
 
-
         return view
     }
 
@@ -57,7 +56,7 @@ class UserHomeFragment : Fragment() {
             for (document in result) {
                 Log.d("TAG22222", "${document.id} => ${document.data}")
                 val post = document.toObject<Post>()
-                if (post != null && post.uid != CurrentUser.uid)
+                if (post != null )
                 {
                     postList?.add(post)
                 }
@@ -68,5 +67,4 @@ class UserHomeFragment : Fragment() {
                 Log.d("TAG22222", "Error getting documents: ", exception)
             }
     }
-
 }
