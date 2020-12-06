@@ -113,8 +113,6 @@ class CreatePost : AppCompatActivity() {
             database.set(post).addOnSuccessListener {
             pd.dismiss()
             val intent = Intent(this@CreatePost, CurrentPost::class.java)
-            intent.putExtra("URL", myUrl)
-            intent.putExtra("Description", title_edittext.text.toString())
             startActivity(intent)
             Toast.makeText(this, title_edittext.text.toString(), Toast.LENGTH_LONG).show()
             Toast.makeText(this, "Posted Successfully!", Toast.LENGTH_LONG).show()
