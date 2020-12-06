@@ -1,5 +1,6 @@
 package edu.newhaven.socialmediaapp.Fragments
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -19,6 +20,7 @@ import edu.newhaven.socialmediaapp.Adapter.UserItemAdapter
 import edu.newhaven.socialmediaapp.R
 import edu.newhaven.socialmediaapp.models.Post
 import edu.newhaven.socialmediaapp.models.User
+import kotlinx.android.synthetic.main.postcard_homefrag.view.*
 
 class UserHomeFragment : Fragment() {
     private var recyclerView: RecyclerView? = null
@@ -42,7 +44,13 @@ class UserHomeFragment : Fragment() {
         postList = ArrayList()
         postItemAdapter = context?.let { PostItemAdapter(it, postList as ArrayList<Post>, true) }
         recyclerView?.adapter = postItemAdapter
+        getPostList()
 
+
+        return view
+    }
+
+    private fun getPostList() {
         val usersRef = Firebase.firestore.collection("posts").orderBy("timestamp", Query.Direction.DESCENDING)
         usersRef.get().addOnSuccessListener { result ->
             postList?.clear()
@@ -59,7 +67,6 @@ class UserHomeFragment : Fragment() {
             .addOnFailureListener { exception ->
                 Log.d("TAG22222", "Error getting documents: ", exception)
             }
-        return view
     }
 
 }

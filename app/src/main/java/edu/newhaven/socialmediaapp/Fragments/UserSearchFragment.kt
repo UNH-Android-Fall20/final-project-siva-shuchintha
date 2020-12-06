@@ -47,7 +47,8 @@ class UserSearchFragment : Fragment() {
         recyclerView?.setHasFixedSize(true)
         recyclerView?.layoutManager = LinearLayoutManager(context)
 
-
+        recyclerView?.visibility = View.VISIBLE
+        getUserList()
         userList = ArrayList()
         userItemAdapter = context?.let { UserItemAdapter(it, userList as ArrayList<User>, true) }
         recyclerView?.adapter = userItemAdapter
@@ -57,8 +58,7 @@ class UserSearchFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int)
             {
-                    recyclerView?.visibility = View.VISIBLE
-                    getUserList()
+
                     searchOtherUsers(s.toString().toLowerCase())
             }
             override fun afterTextChanged(s: Editable?){}

@@ -45,16 +45,18 @@
             android:text="Title of the post"
             android:textSize="12dp" />
 
-        <ImageView
-            android:id="@+id/Likes_post_imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <Button
+            android:id="@+id/Likes_post_button"
+            android:layout_width="49dp"
+            android:layout_height="20dp"
             android:layout_below="@+id/PostImage_imageView"
             android:layout_alignStart="@+id/PostImage_imageView"
             android:layout_marginStart="-1dp"
             android:layout_marginTop="48dp"
-            android:background="@color/cardview_light_background"
-            app:srcCompat="@drawable/ic_activity" />
+            android:background="#000000"
+            android:text="Like"
+            android:textColor="#FAFAFB" />
+
 
         <TextView
             android:id="@+id/Comments_post_textView"
@@ -62,8 +64,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/PostImage_imageView"
             android:layout_alignStart="@+id/Title_post_textView"
-            android:layout_marginStart="29dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginStart="58dp"
+            android:layout_marginTop="48dp"
             android:text="Comments" />
 
 
