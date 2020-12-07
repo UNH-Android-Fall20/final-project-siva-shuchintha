@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.CurrentPostFragment"
+    android:layout_above="@+id/bottomNavViewBar"
+   >
+
+        <RelativeLayout
+            android:layout_width="404dp"
+            android:layout_height="match_parent"
+            android:layout_margin="20px"
+            android:layout_marginStart="20px"
+            android:layout_marginTop="20px"
+            android:layout_marginEnd="20px">
+
+
+            <ImageView
+                android:id="@+id/CurrentPostImage_imageView"
+                android:layout_width="match_parent"
+                android:layout_height="278dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:padding="5dp"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/Currentotheruser_username_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/CurrentPostImage_imageView"
+                android:layout_alignStart="@+id/CurrentPostImage_imageView"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="9dp"
+                android:gravity="center"
+                android:text="user name" />
+
+            <TextView
+                android:id="@+id/CurrentTitle_post_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/CurrentPostImage_imageView"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="29dp"
+                android:gravity="center"
+                android:text="Title of the post"
+                android:textSize="12dp" />
+
+            <Button
+                android:id="@+id/CurrentLikes_post_button"
+                android:layout_width="49dp"
+                android:layout_height="20dp"
+                android:layout_below="@+id/CurrentPostImage_imageView"
+                android:layout_alignStart="@+id/CurrentPostImage_imageView"
+                android:layout_marginStart="-1dp"
+                android:layout_marginTop="48dp"
+                android:background="#000000"
+                android:text="Like"
+                android:textColor="#FAFAFB" />
+
+
+            <EditText
+                android:id="@+id/CurrentaddComment_editText"
+                android:layout_width="292dp"
+                android:layout_height="38dp"
+                android:layout_below="@+id/CurrentLikes_post_button"
+                android:layout_alignStart="@+id/CurrentLikes_post_button"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="1dp"
+                android:hint="Want to add a comment?..." />
+
+            <Button
+                android:id="@+id/Currentsave_comments_button"
+                android:layout_width="69dp"
+                android:layout_height="36dp"
+                android:layout_below="@+id/CurrentTitle_post_textView"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="306dp"
+                android:layout_marginTop="23dp"
+                android:layout_marginEnd="14dp"
+                android:text="Save" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/post_comments_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/CurrentaddComment_editText"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp" />
+
+
+        </RelativeLayout>
+</FrameLayout>
