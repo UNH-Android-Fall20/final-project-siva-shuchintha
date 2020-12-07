@@ -28,10 +28,7 @@ class UserProfileFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_user_profile, container, false)
         CurrentUser = FirebaseAuth.getInstance().currentUser!!
         view.editProfileButton.setOnClickListener {
-//            startActivity(Intent(this, EditProfileActivity::class.java))
-//            finish()
-            val i = Intent(activity, EditProfileActivity::class.java)
-            startActivity(i)
+            startActivity(Intent(activity, EditProfileActivity::class.java))
             (activity as Activity?)!!.overridePendingTransition(0, 0)
         }
         FetchUserDetails(view)

@@ -1,4 +1,4 @@
-package edu.newhaven.socialmediaapp
+package edu.newhaven.socialmediaapp.Fragments
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -7,8 +7,11 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
@@ -20,29 +23,29 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.StorageTask
 import com.squareup.picasso.Picasso
+import edu.newhaven.socialmediaapp.R
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.fragment_user_profile.*
-import edu.newhaven.socialmediaapp.R
 
-
-class EditProfileActivity : AppCompatActivity() {
+class UserEditProfileFragment : Fragment() {
     private var filepath: Uri? = null
-    var ref: DatabaseReference? = null
     private var myUrl = ""
-    var UserFirebase: FirebaseUser? = null
+    var CurrentUser: FirebaseUser? = null
     private lateinit var auth: FirebaseAuth
     private lateinit var user: FirebaseUser
     var postUrl: String? = null
     var postDescription: String? = null
     var database: DocumentReference? = null
     private lateinit var storageReference: StorageReference
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_profile)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view =  inflater.inflate(R.layout.fragment_user_edit_profile, container, false)
         auth = FirebaseAuth.getInstance()
         user = auth.currentUser!!
         database = Firebase.firestore.collection("users").document(auth.uid.toString())
+        CurrentUser = FirebaseAuth.getInstance().currentUser!!
 
         ShowInitialValues()
         filepath = null
@@ -55,19 +58,15 @@ class EditProfileActivity : AppCompatActivity() {
 
         deleteAcc_button.setOnClickListener {
             DeleteAccount()
-        }
-//        back_to_profile_button.setOnClickListener {
-//            finishActivity()
-//        }
-    }
 
-    override fun onStart() {
-        super.onStart()
-        UserFirebase = FirebaseAuth.getInstance().currentUser
+        }
+        back_to_profile_button.setOnClickListener {
+        }
+        return view
     }
 
     private fun DeleteAccount() {
-        val builder = AlertDialog.Builder(this@EditProfileActivity)
+        val builder = AlertDialog.Builder(activity!!)
         builder.setMessage("Are you sure you want to Delete the account?")
             .setCancelable(false)
             .setPositiveButton("Yes") { dialog, id ->
@@ -95,9 +94,9 @@ class EditProfileActivity : AppCompatActivity() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d("TAG", "User Auth deleted!")
-                    Toast.makeText(this, "Account Deleted Successfully", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this@EditProfileActivity, MainActivity::class.java))
-                    finish()
+                    Toast.makeText(activity!!, "Account Deleted Successfully", Toast.LENGTH_SHORT).show()
+//                    startActivity(Intent(this@EditProfileActivity, MainActivity::class.java))
+//                    finish()
                 }
             }.addOnFailureListener { e ->
                 Log.e("TAG", e.message, e)
@@ -115,7 +114,7 @@ class EditProfileActivity : AppCompatActivity() {
                         Picasso.get().load(myUrl).into(profile_pic_edit)
 
                     }
-                    Toast.makeText(this, document.data.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity!!, document.data.toString(), Toast.LENGTH_SHORT).show()
                     editFullName_text.setText(document.data!!["fullname"].toString())
                     if(document.data!!["bio"].toString() !== ""){
                         editBio_text.setText(document.data!!["bio"].toString())
@@ -134,12 +133,12 @@ class EditProfileActivity : AppCompatActivity() {
     private fun SaveProfileChanges() {
 
         if (filepath != null) {
-            var pd = ProgressDialog(this)
+            var pd = ProgressDialog(activity!!)
             pd.setTitle("Saving...")
             pd.show()
 
             storageReference = FirebaseStorage.getInstance().getReference(
-                UserFirebase!!.uid + ".jpg"
+                CurrentUser!!.uid + ".jpg"
             )
             var uploadTask: StorageTask<*>
             uploadTask = storageReference.putFile(filepath!!)
@@ -157,13 +156,11 @@ class EditProfileActivity : AppCompatActivity() {
                     if(task.isSuccessful){
                         val downloadUrl = task.result
                         myUrl = downloadUrl!!.toString()
-                        Toast.makeText(this, "url", Toast.LENGTH_SHORT).show()
-                        Toast.makeText(this, myUrl, Toast.LENGTH_SHORT).show()
                         SaveChangesToDb(myUrl, pd)
                     }
                 }
         }else{
-            var pd = ProgressDialog(this)
+            var pd = ProgressDialog(activity!!)
             pd.setTitle("Saving...")
             pd.show()
             SaveChangesToDb(myUrl, pd)
@@ -191,14 +188,14 @@ class EditProfileActivity : AppCompatActivity() {
         database!!.set(data, SetOptions.merge()).addOnSuccessListener {
             pd.dismiss()
 //            CHange it to fragment ==============================
-//            val intent = Intent(this, ProfileActivity::class.java)
+//            val intent = Intent(activity!!, ::class.java)
 //            startActivity(intent)
 //            CHange it to fragment ==============================
 
-            Toast.makeText(this, "Successfully saved!", Toast.LENGTH_LONG).show()
+            Toast.makeText(activity!!, "Successfully saved!", Toast.LENGTH_LONG).show()
         }.addOnFailureListener {
             pd.dismiss()
-            Toast.makeText(this, "Unsuccessfull!", Toast.LENGTH_LONG).show()
+            Toast.makeText(activity!!, "Unsuccessfull!", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -219,8 +216,9 @@ class EditProfileActivity : AppCompatActivity() {
             Log.d("Filepath", filepath.toString())
             profile_pic_edit.setImageURI(filepath)
         } else {
-            Toast.makeText(this, "Error image upload", Toast.LENGTH_LONG).show()
+            Toast.makeText(activity!!, "Error image upload", Toast.LENGTH_LONG).show()
         }
     }
+
 
 }
