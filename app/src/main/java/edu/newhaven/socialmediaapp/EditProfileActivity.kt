@@ -188,8 +188,11 @@ class EditProfileActivity : AppCompatActivity() {
 
         database!!.set(data, SetOptions.merge()).addOnSuccessListener {
             pd.dismiss()
-            val intent = Intent(this, ProfileActivity::class.java)
-            startActivity(intent)
+//            CHange it to fragment ==============================
+//            val intent = Intent(this, ProfileActivity::class.java)
+//            startActivity(intent)
+//            CHange it to fragment ==============================
+
             Toast.makeText(this, "Successfully saved!", Toast.LENGTH_LONG).show()
         }.addOnFailureListener {
             pd.dismiss()

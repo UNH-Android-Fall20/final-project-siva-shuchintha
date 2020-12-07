@@ -1,6 +1,5 @@
 package edu.newhaven.socialmediaapp.Fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,10 +11,8 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
-import edu.newhaven.socialmediaapp.EditProfileActivity
 import edu.newhaven.socialmediaapp.R
-import kotlinx.android.synthetic.main.activity_profile.*
-import kotlinx.android.synthetic.main.activity_profile.view.*
+import kotlinx.android.synthetic.main.fragment_user_profile.view.*
 
 class UserProfileFragment : Fragment() {
     private lateinit var CurrentUser: FirebaseUser
@@ -30,19 +27,19 @@ class UserProfileFragment : Fragment() {
 //            startActivity(Intent(this, EditProfileActivity::class.java))
 //            finish()
         }
-        FetchUserDetails()
+        FetchUserDetails(view)
     return view
     }
 
-    private fun FetchUserDetails() {
-        GetUserDetailsFromUsersCollection()
-        GetUserFollowCountFromFollowersCollection()
+    private fun FetchUserDetails(view: View) {
+        GetUserDetailsFromUsersCollection(view)
+        GetUserFollowCountFromFollowersCollection(view)
     }
-    private fun GetUserFollowCountFromFollowersCollection() {
-        FetchFollowCount()
-        FetchFollowingCount()
+    private fun GetUserFollowCountFromFollowersCollection(view: View) {
+        FetchFollowCount(view)
+        FetchFollowingCount(view)
     }
-    private fun FetchFollowCount() {
+    private fun FetchFollowCount(view: View) {
         Log.d("tagabc", "followers profileId = " + CurrentUser.uid)
         var count = 0
         Firebase.firestore.collection("follow_and_following")
@@ -55,7 +52,7 @@ class UserProfileFragment : Fragment() {
                     Log.d("tagabc", "${document.id} => ${document.data}")
                     count++
                 }
-                numberofFollowers_textView?.text = count.toString()
+                view.numberofFollowers_textView?.text = count.toString()
 
             }
             .addOnFailureListener { exception ->
@@ -63,7 +60,7 @@ class UserProfileFragment : Fragment() {
             }
     }
 
-    private fun FetchFollowingCount() {
+    private fun FetchFollowingCount(view: View) {
         Log.d("tagabc", "followings profileId = " + CurrentUser.uid)
         var count = 0
         Firebase.firestore.collection("follow_and_following")
@@ -78,14 +75,14 @@ class UserProfileFragment : Fragment() {
                     count++
 
                 }
-                numberofFollowing_textView.text = count.toString()
+                view.numberofFollowing_textView.text = count.toString()
 
             }.addOnFailureListener { exception ->
                 Log.d("tagabc", "Error getting documents: ", exception)
             }
     }
 
-    private fun GetUserDetailsFromUsersCollection() {
+    private fun GetUserDetailsFromUsersCollection(view: View) {
         Firebase.firestore.collection("users")
             .document(CurrentUser.uid)
             .get().addOnSuccessListener { document ->
@@ -94,12 +91,12 @@ class UserProfileFragment : Fragment() {
                     Log.d("TagUser", "DocumentSnapshot data: ${document.data!!["bio"]}")
                     if(document.data!!["profileimage"].toString() !== ""){
                         Log.d("TAG0", "DocumentSnapshot data: ${document.data!!["profileimage"].toString()}")
-                        Picasso.get().load(document.data!!["profileimage"].toString()).into(ProfileImage_Imageview)
+                        Picasso.get().load(document.data!!["profileimage"].toString()).into(view.ProfileImage_Imageview)
                     }
-                    UserName_textView.setText(document.data!!["username"].toString())
-                    FullName_textView.setText(document.data!!["fullname"].toString())
+                    view.UserName_textView.setText(document.data!!["username"].toString())
+                    view.FullName_textView.setText(document.data!!["fullname"].toString())
                     if(document.data!!["bio"].toString() !== ""){
-                        Bio_textView.setText(document.data!!["bio"].toString())
+                        view.Bio_textView.setText(document.data!!["bio"].toString())
                     }
                 } else {
                     Log.d("TagUser", "error finding doc")
