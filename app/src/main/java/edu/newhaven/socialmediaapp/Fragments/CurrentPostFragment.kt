@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -15,8 +16,12 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import edu.newhaven.socialmediaapp.R
+import edu.newhaven.socialmediaapp.models.Comment
+import edu.newhaven.socialmediaapp.models.Post
 import kotlinx.android.synthetic.main.fragment_current_post.*
 import kotlinx.android.synthetic.main.fragment_current_post.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class CurrentPostFragment : Fragment() {
     private lateinit var CurrentUser: FirebaseUser
@@ -37,10 +42,51 @@ class CurrentPostFragment : Fragment() {
             FetchPostDetails(postID)
         }
 
-        view.CurrentLikes_post_button.setOnClickListener {
-            AddUserLiked()
-        }
+        view.CurrentLikes_post_button.setOnClickListener { AddUserLiked() }
+        view.Currentsave_comments_button.setOnClickListener { saveComment(postID,CurrentaddComment_editText) }
         return view
+    }
+
+    private fun saveComment(postID: String, CurrentaddComment_editText: EditText) {
+        if(CurrentaddComment_editText.text.toString().isEmpty()){
+            CurrentaddComment_editText.error = "Comment missing!"
+            CurrentaddComment_editText.requestFocus()
+            return
+        }
+
+        var userName = ""
+        Firebase.firestore.collection("users").document(CurrentUser!!.uid)
+            .get().addOnSuccessListener { document ->
+                if (document != null) {
+                    Log.d("user name", document.data!!["username"].toString())
+                    userName = document.data!!["username"].toString()
+                    setCommentToFirestore(userName, CurrentaddComment_editText, postID)
+                }else {
+                    Log.d("post", "error finding doc")
+                }
+            }.addOnFailureListener { exception ->
+                Log.d("post", "got failed with ", exception)
+            }
+    }
+
+    private fun setCommentToFirestore(userName: String, CurrentaddComment_editText: EditText, postID: String) {
+        Log.d("USERNAMEHERE", userName.toString())
+        val dNow = Date()
+        val ft = SimpleDateFormat("yyMMddhhmmssMs")
+        var timestamp = ft.format(dNow)
+        Log.d("USERNAMEHERE", userName.toString())
+
+        var comment = Comment(userName.toString(), CurrentaddComment_editText.text.toString(),timestamp)
+        val idcomment = timestamp + CurrentUser!!.uid
+        Firebase.firestore.collection("posts")
+            .document(postID)
+            .collection("comments")
+            .document(idcomment)
+            .set(comment)
+            .addOnCompleteListener {
+                CurrentaddComment_editText.text.clear()
+            }
+        Log.d("comment", "Comment successfull")
     }
 
     private fun AddUserLiked() {

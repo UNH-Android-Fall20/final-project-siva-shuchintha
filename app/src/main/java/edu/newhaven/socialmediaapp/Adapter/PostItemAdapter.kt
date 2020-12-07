@@ -89,7 +89,6 @@ class PostItemAdapter (private var context: Context,
             }.addOnFailureListener { exception ->
                 Log.d("post", "got failed with ", exception)
             }
-
     }
 
     private fun setCommentToFirestore(userName: String, addcommentEdittext: EditText, postItem: Post) {
