@@ -125,8 +125,8 @@ class CurrentPostFragment : Fragment() {
             .document(idcomment)
             .set(comment)
             .addOnCompleteListener {
+                 getCommentsList()
                 CurrentaddComment_editText.text.clear()
-
             }
         Log.d("comment", "Comment successfull")
     }
@@ -145,6 +145,7 @@ class CurrentPostFragment : Fragment() {
                 .document(CurrentUser!!.uid)
                 .delete()
         }
+
     }
 
     private fun FetchPostDetails(postID: String) {
