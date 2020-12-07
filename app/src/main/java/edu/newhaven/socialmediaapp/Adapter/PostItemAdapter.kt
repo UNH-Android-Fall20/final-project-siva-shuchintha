@@ -31,7 +31,6 @@ class PostItemAdapter (private var context: Context,
 
     private var CurrentUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     private val data = hashMapOf("value" to true)
-    private var recyclerView: RecyclerView? = null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostItemAdapter.ViewHolder {

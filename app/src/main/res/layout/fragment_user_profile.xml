@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.UserProfileFragment">
+    tools:context=".Fragments.UserProfileFragment"
+    android:layout_above="@+id/bottomNavViewBar">
 
 
 
@@ -14,35 +15,40 @@
         android:layout_height="match_parent"
         >
 
-
         <TextView
             android:id="@+id/numberofPosts_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/Bio_textView"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="257dp"
             android:layout_marginEnd="330dp"
+            android:layout_marginBottom="41dp"
             android:text="0" />
 
         <TextView
             android:id="@+id/numberofFollowers_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/Bio_textView"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="255dp"
             android:layout_marginEnd="236dp"
+            android:layout_marginBottom="43dp"
             android:text="0" />
 
         <TextView
             android:id="@+id/numberofFollowing_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/Bio_textView"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="254dp"
             android:layout_marginEnd="118dp"
+            android:layout_marginBottom="44dp"
             android:text="0" />
 
         <Button
@@ -61,34 +67,42 @@
             android:id="@+id/ProfileImage_Imageview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/Bio_textView"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="46dp"
-            android:layout_marginEnd="198dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginEnd="265dp"
+            android:layout_marginBottom="167dp"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/UserName_textView"
-            android:layout_width="wrap_content"
+            android:layout_width="212dp"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/Bio_textView"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="84dp"
-            android:layout_marginEnd="62dp"
+            android:layout_marginTop="70dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="221dp"
             android:text="USERNAME"
             android:textAlignment="center"
             android:textSize="50px" />
 
         <TextView
             android:id="@+id/FullName_textView"
-            android:layout_width="wrap_content"
+            android:layout_width="143dp"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/UserName_textView"
+            android:layout_alignBottom="@+id/Bio_textView"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="144dp"
-            android:layout_marginEnd="74dp"
+            android:layout_marginStart="-4dp"
+            android:layout_marginTop="122dp"
+            android:layout_marginEnd="22dp"
+            android:layout_marginBottom="169dp"
             android:text="FullName"
             android:textAlignment="center"
             android:textSize="50px" />
@@ -96,31 +110,35 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/Bio_textView"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="235dp"
             android:layout_marginEnd="318dp"
+            android:layout_marginBottom="63dp"
             android:text="Posts" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/Bio_textView"
+            android:layout_alignBottom="@+id/Bio_textView"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="235dp"
             android:layout_marginEnd="212dp"
-            android:layout_marginBottom="36dp"
+            android:layout_marginBottom="63dp"
             android:text="Followers" />
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/Bio_textView"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="234dp"
             android:layout_marginEnd="92dp"
+            android:layout_marginBottom="64dp"
             android:text="Following" />
 
         <TextView
@@ -135,14 +153,16 @@
             android:textAlignment="center"
             android:textSize="50px" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/post_comments_recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/CurrentaddComment_editText"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="0dp" />
+    <androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/user_post_recyclerView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@+id/Bio_textView"
+    android:layout_alignParentBottom="true"
+    android:layout_marginTop="0dp"
+    android:layout_marginBottom="0dp" />
+
+
     </RelativeLayout>
 
 
