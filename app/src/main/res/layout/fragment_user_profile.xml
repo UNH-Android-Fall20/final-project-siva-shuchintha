@@ -7,16 +7,11 @@
     tools:context=".Fragments.UserProfileFragment">
 
 
-    <RelativeLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottomNavViewBar"
         >
 
 
@@ -24,61 +19,62 @@
             android:id="@+id/numberofPosts_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/Bio_textView"
+            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
+            android:layout_marginTop="257dp"
             android:layout_marginEnd="330dp"
-            android:layout_marginBottom="15dp"
             android:text="0" />
 
         <TextView
             android:id="@+id/numberofFollowers_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/Bio_textView"
+            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
+            android:layout_marginTop="255dp"
             android:layout_marginEnd="236dp"
-            android:layout_marginBottom="16dp"
             android:text="0" />
 
         <TextView
             android:id="@+id/numberofFollowing_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/Bio_textView"
+            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="254dp"
             android:layout_marginEnd="118dp"
-            android:layout_marginBottom="17dp"
             android:text="0" />
 
         <Button
             android:id="@+id/editProfileButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="154dp"
-            android:layout_marginBottom="168dp"
+            android:layout_marginStart="291dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="9dp"
             android:text="Edit Profile" />
 
         <ImageView
             android:id="@+id/ProfileImage_Imageview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
+            android:layout_marginTop="46dp"
             android:layout_marginEnd="198dp"
-            android:layout_marginBottom="428dp"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/UserName_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
+            android:layout_marginTop="84dp"
             android:layout_marginEnd="62dp"
-            android:layout_marginBottom="493dp"
             android:text="USERNAME"
             android:textAlignment="center"
             android:textSize="50px" />
@@ -88,11 +84,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/UserName_textView"
+            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
             android:layout_marginStart="6dp"
+            android:layout_marginTop="144dp"
             android:layout_marginEnd="74dp"
-            android:layout_marginBottom="433dp"
             android:text="FullName"
             android:textAlignment="center"
             android:textSize="50px" />
@@ -100,17 +96,19 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/Bio_textView"
+            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
+            android:layout_marginTop="235dp"
             android:layout_marginEnd="318dp"
-            android:layout_marginBottom="36dp"
             android:text="Posts" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/Bio_textView"
+            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
+            android:layout_marginTop="235dp"
             android:layout_marginEnd="212dp"
             android:layout_marginBottom="36dp"
             android:text="Followers" />
@@ -119,40 +117,33 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/Bio_textView"
+            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
+            android:layout_marginTop="234dp"
             android:layout_marginEnd="92dp"
-            android:layout_marginBottom="37dp"
             android:text="Following" />
 
         <TextView
             android:id="@+id/Bio_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
+            android:layout_marginTop="291dp"
             android:layout_marginEnd="0dp"
-            android:layout_marginBottom="286dp"
             android:text="UserBio......"
             android:textAlignment="center"
             android:textSize="50px" />
 
-        <Button
-            android:id="@+id/back_to_profile_button"
-            android:layout_width="71dp"
-            android:layout_height="32dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="7dp"
-            android:layout_marginTop="17dp"
-            android:layout_marginEnd="333dp"
-            android:text="Back" />
-
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/post_comments_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/CurrentaddComment_editText"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp" />
     </RelativeLayout>
-    <include layout="@layout/bottom_navibar" />
 
-    </RelativeLayout>
 
 </FrameLayout>

@@ -31,6 +31,7 @@ class UserProfileFragment : Fragment() {
             startActivity(Intent(activity, EditProfileActivity::class.java))
             (activity as Activity?)!!.overridePendingTransition(0, 0)
         }
+
         FetchUserDetails(view)
     return view
     }

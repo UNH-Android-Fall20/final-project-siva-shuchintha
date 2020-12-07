@@ -20,6 +20,8 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.StorageTask
 import com.squareup.picasso.Picasso
+import edu.newhaven.socialmediaapp.Fragments.UserHomeFragment
+import edu.newhaven.socialmediaapp.Fragments.UserProfileFragment
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.fragment_user_profile.*
 import edu.newhaven.socialmediaapp.R
@@ -56,9 +58,6 @@ class EditProfileActivity : AppCompatActivity() {
         deleteAcc_button.setOnClickListener {
             DeleteAccount()
         }
-//        back_to_profile_button.setOnClickListener {
-//            finishActivity()
-//        }
     }
 
     override fun onStart() {
@@ -190,11 +189,7 @@ class EditProfileActivity : AppCompatActivity() {
 
         database!!.set(data, SetOptions.merge()).addOnSuccessListener {
             pd.dismiss()
-//            CHange it to fragment ==============================
-//            val intent = Intent(this, ProfileActivity::class.java)
-//            startActivity(intent)
-//            CHange it to fragment ==============================
-
+              finish()
             Toast.makeText(this, "Successfully saved!", Toast.LENGTH_LONG).show()
         }.addOnFailureListener {
             pd.dismiss()
