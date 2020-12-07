@@ -52,9 +52,11 @@ class PostItemAdapter (private var context: Context,
         holder.Title_post_textView.text = postItem.title
         Picasso.get().load(postItem.image).placeholder(R.drawable.ic_logo).into(holder.PostImage_imageView)
         UpdateLikeStatus(postItem,holder.Likes_post_button)
+
         holder.Likes_post_button.setOnClickListener {
             AddUserLiked(postItem,holder.Likes_post_button)
         }
+
         holder.save_comments_button.setOnClickListener {
             saveComment(postItem,holder.addComment_editText)
         }
@@ -75,6 +77,7 @@ class PostItemAdapter (private var context: Context,
             addcommentEdittext.requestFocus()
             return
         }
+
         var userName = ""
 
         Firebase.firestore.collection("users").document(CurrentUser!!.uid)

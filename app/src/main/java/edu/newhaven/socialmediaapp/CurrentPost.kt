@@ -38,20 +38,5 @@ class CurrentPost : AppCompatActivity() {
             .centerCrop()
             .into(imageView_post)
         textView_Description.setText(postDescription.toString())
-
-//        userRef!!.addValueEventListener(object : ValueEventListener{
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                if (snapshot.exists()){
-//                    val user: User? = snapshot.getValue(User::class.java)
-//                    textView_UserName.text = user!!.username
-//                    Picasso.get().load(postUrl).into(imageView_post)
-//                    textView_Description.text = postDescription
-//                }
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//
-//            }
-//        })
     }
 }

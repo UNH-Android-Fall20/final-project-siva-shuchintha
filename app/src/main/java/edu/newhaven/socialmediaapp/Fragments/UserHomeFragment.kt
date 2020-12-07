@@ -50,8 +50,10 @@ class UserHomeFragment : Fragment() {
     }
 
     private fun getPostList() {
-        val usersRef = Firebase.firestore.collection("posts").orderBy("timestamp", Query.Direction.DESCENDING)
-        usersRef.get().addOnSuccessListener { result ->
+        Firebase.firestore.collection("posts")
+            .orderBy("timestamp", Query.Direction.DESCENDING)
+            .get()
+            .addOnSuccessListener { result ->
             postList?.clear()
             for (document in result) {
                 Log.d("TAG22222", "${document.id} => ${document.data}")
