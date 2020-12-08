@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.ActionBar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import edu.newhaven.socialmediaapp.Fragments.UserHomeFragment
+import edu.newhaven.socialmediaapp.Fragments.UserProfileFragment
 import edu.newhaven.socialmediaapp.Fragments.UserSearchFragment
 import kotlinx.android.synthetic.main.postcard_homefrag.*
 
@@ -41,8 +42,11 @@ class BaseActivity : AppCompatActivity() {
                     startActivity(i)
                 }
                 R.id.ic_profile ->{
-                    startActivity(Intent(this, ProfileActivity::class.java))
-                    finish()
+//                    startActivity(Intent(this, ProfileActivity::class.java))
+////                    finish()
+                    val fragmentTrans = supportFragmentManager.beginTransaction()
+                    fragmentTrans.replace(R.id.fragment_container, UserProfileFragment())
+                    fragmentTrans.commit()
                 }
             }
         }

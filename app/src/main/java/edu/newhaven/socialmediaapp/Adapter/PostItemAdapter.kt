@@ -31,7 +31,6 @@ class PostItemAdapter (private var context: Context,
 
     private var CurrentUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     private val data = hashMapOf("value" to true)
-    private var recyclerView: RecyclerView? = null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostItemAdapter.ViewHolder {
@@ -62,6 +61,15 @@ class PostItemAdapter (private var context: Context,
         }
 
         holder.Comments_post_textView.setOnClickListener(View.OnClickListener {
+            val preference = context.getSharedPreferences("POST", Context.MODE_PRIVATE).edit()
+            preference.putString("PostID", postItem.postid)
+            preference.apply()
+
+            (context as FragmentActivity).supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, CurrentPostFragment()).commit()
+        })
+
+        holder.itemView.setOnClickListener (View.OnClickListener {
             val preference = context.getSharedPreferences("POST", Context.MODE_PRIVATE).edit()
             preference.putString("PostID", postItem.postid)
             preference.apply()

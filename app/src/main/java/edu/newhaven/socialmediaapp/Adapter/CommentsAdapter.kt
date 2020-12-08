@@ -24,10 +24,6 @@ class CommentsAdapter (private var context: Context,
                        private var commentsList: List<Comment>,
                        private var isFragment: Boolean = false) : RecyclerView.Adapter<CommentsAdapter.ViewHolder>() {
 
-    private var CurrentUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
-    private val data = hashMapOf("value" to "true")
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentsAdapter.ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.post_comments_post, parent, false)
         Log.d("TAG333", "postsss")
