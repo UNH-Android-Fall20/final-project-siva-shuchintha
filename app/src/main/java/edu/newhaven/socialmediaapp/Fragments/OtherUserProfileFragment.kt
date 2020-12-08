@@ -21,6 +21,7 @@ import edu.newhaven.socialmediaapp.R
 import edu.newhaven.socialmediaapp.models.Post
 import kotlinx.android.synthetic.main.fragment_other_user_profile.*
 import kotlinx.android.synthetic.main.fragment_other_user_profile.view.*
+import kotlinx.android.synthetic.main.fragment_user_profile.view.*
 import java.util.ArrayList
 
 
@@ -69,14 +70,19 @@ class OtherUserProfileFragment : Fragment() {
             .get()
             .addOnSuccessListener { result ->
                 otherUserPostList?.clear()
+                var count = 0
+
                 for (document in result) {
                     Log.d("otherUserposts", "${document.id} => ${document.data}")
                     val post = document.toObject<Post>()
+                    count++
+
                     if (post != null )
                     {
                         otherUserPostList?.add(post)
                     }
                 }
+                view?.numberofPostsOtherUser_textView?.text = count.toString()
                 userPostAdapter?.notifyDataSetChanged()
             }
             .addOnFailureListener { exception ->

@@ -69,14 +69,18 @@ class UserProfileFragment : Fragment() {
             .get()
             .addOnSuccessListener { result ->
                 userPostList?.clear()
+                var count = 0
                 for (document in result) {
                     Log.d("Userposts", "${document.id} => ${document.data}")
                     val post = document.toObject<Post>()
+                    count++
                     if (post != null )
                     {
                         userPostList?.add(post)
                     }
                 }
+                view?.numberofPosts_textView?.text = count.toString()
+
                 userPostAdapter?.notifyDataSetChanged()
             }
             .addOnFailureListener { exception ->
