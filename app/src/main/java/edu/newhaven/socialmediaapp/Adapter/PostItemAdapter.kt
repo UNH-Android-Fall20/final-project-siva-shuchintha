@@ -68,6 +68,15 @@ class PostItemAdapter (private var context: Context,
             (context as FragmentActivity).supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, CurrentPostFragment()).commit()
         })
+
+        holder.itemView.setOnClickListener (View.OnClickListener {
+            val preference = context.getSharedPreferences("POST", Context.MODE_PRIVATE).edit()
+            preference.putString("PostID", postItem.postid)
+            preference.apply()
+
+            (context as FragmentActivity).supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, CurrentPostFragment()).commit()
+        })
     }
 
     private fun saveComment(postItem: Post, addcommentEdittext: EditText) {
