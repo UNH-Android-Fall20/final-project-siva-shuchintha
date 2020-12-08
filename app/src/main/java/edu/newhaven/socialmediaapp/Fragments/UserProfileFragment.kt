@@ -23,6 +23,7 @@ import edu.newhaven.socialmediaapp.Adapter.PostItemAdapter
 import edu.newhaven.socialmediaapp.Adapter.UserPostsAdapter
 import edu.newhaven.socialmediaapp.EditProfileActivity
 import edu.newhaven.socialmediaapp.R
+import edu.newhaven.socialmediaapp.TestingActivity
 import edu.newhaven.socialmediaapp.models.Comment
 import edu.newhaven.socialmediaapp.models.Post
 import kotlinx.android.synthetic.main.fragment_user_profile.view.*
@@ -34,6 +35,7 @@ class UserProfileFragment : Fragment() {
     private var recyclerView: RecyclerView? = null
     private var userPostList: MutableList<Post>? = null
     private var userPostAdapter: UserPostsAdapter? = null
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +47,8 @@ class UserProfileFragment : Fragment() {
             startActivity(Intent(activity, EditProfileActivity::class.java))
             (activity as Activity?)!!.overridePendingTransition(0, 0)
         }
+        auth = FirebaseAuth.getInstance()
+
         recyclerView = view.findViewById(R.id.user_post_recyclerView)
         recyclerView?.setHasFixedSize(true)
         recyclerView?.layoutManager = LinearLayoutManager(context)
@@ -53,7 +57,9 @@ class UserProfileFragment : Fragment() {
         recyclerView?.adapter = userPostAdapter
         FetchUserDetails()
         getUserPostList()
-
+        view.Logout_button.setOnClickListener {
+            auth.signOut()
+        }
         return view
     }
     private fun getUserPostList() {

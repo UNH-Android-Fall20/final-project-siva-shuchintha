@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SocialMediaApp</string>
+    <string name="app_name">MBook</string>
     <string name="Login">Login</string>
     <string name="SignUp">SignUp</string>
     <string name="Email_Address">Email Address</string>

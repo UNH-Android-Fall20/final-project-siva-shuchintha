@@ -37,10 +37,6 @@ class BaseActivity : AppCompatActivity() {
                     startActivity(Intent(this, CreatePost::class.java))
                     finish()
                 }
-                R.id.ic_activity ->{
-                    val i = Intent(this, TestingActivity::class.java)
-                    startActivity(i)
-                }
                 R.id.ic_profile ->{
 //                    startActivity(Intent(this, ProfileActivity::class.java))
 ////                    finish()
