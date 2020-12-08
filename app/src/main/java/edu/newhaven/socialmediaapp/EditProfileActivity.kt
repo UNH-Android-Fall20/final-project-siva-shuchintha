@@ -9,8 +9,6 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.OnFailureListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
@@ -22,8 +20,11 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.StorageTask
 import com.squareup.picasso.Picasso
+import edu.newhaven.socialmediaapp.Fragments.UserHomeFragment
+import edu.newhaven.socialmediaapp.Fragments.UserProfileFragment
 import kotlinx.android.synthetic.main.activity_edit_profile.*
-import kotlinx.android.synthetic.main.activity_sign_up.*
+import kotlinx.android.synthetic.main.fragment_user_profile.*
+import edu.newhaven.socialmediaapp.R
 
 
 class EditProfileActivity : AppCompatActivity() {
@@ -98,7 +99,7 @@ class EditProfileActivity : AppCompatActivity() {
                     finish()
                 }
             }.addOnFailureListener { e ->
-                Log.e("TAG", e.message,e)
+                Log.e("TAG", e.message, e)
             }
     }
 
@@ -164,7 +165,7 @@ class EditProfileActivity : AppCompatActivity() {
             var pd = ProgressDialog(this)
             pd.setTitle("Saving...")
             pd.show()
-            SaveChangesToDb(myUrl,pd)
+            SaveChangesToDb(myUrl, pd)
 
         }
     }
@@ -188,8 +189,7 @@ class EditProfileActivity : AppCompatActivity() {
 
         database!!.set(data, SetOptions.merge()).addOnSuccessListener {
             pd.dismiss()
-            val intent = Intent(this, ProfileActivity::class.java)
-            startActivity(intent)
+              finish()
             Toast.makeText(this, "Successfully saved!", Toast.LENGTH_LONG).show()
         }.addOnFailureListener {
             pd.dismiss()

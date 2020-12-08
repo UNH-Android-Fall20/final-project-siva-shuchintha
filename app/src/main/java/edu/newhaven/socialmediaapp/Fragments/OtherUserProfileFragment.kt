@@ -7,21 +7,30 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
+import edu.newhaven.socialmediaapp.Adapter.UserPostsAdapter
 import edu.newhaven.socialmediaapp.R
+import edu.newhaven.socialmediaapp.models.Post
 import kotlinx.android.synthetic.main.fragment_other_user_profile.*
 import kotlinx.android.synthetic.main.fragment_other_user_profile.view.*
+import java.util.ArrayList
 
 
 class OtherUserProfileFragment : Fragment() {
     private lateinit var OtherUser: String
     private lateinit var CurrentUser: FirebaseUser
     private val data = hashMapOf("value" to "true")
-
+    private var recyclerView: RecyclerView? = null
+    private var otherUserPostList: MutableList<Post>? = null
+    private var userPostAdapter: UserPostsAdapter? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,8 +51,37 @@ class OtherUserProfileFragment : Fragment() {
                 RemoveUserFromFollowList()
             }
         }
+        recyclerView = view.findViewById(R.id.otheruser_post_recyclerView)
+        recyclerView?.setHasFixedSize(true)
+        recyclerView?.layoutManager = LinearLayoutManager(context)
+        otherUserPostList = ArrayList()
+        userPostAdapter = context?.let { UserPostsAdapter(it, otherUserPostList as ArrayList<Post>, true) }
+        recyclerView?.adapter = userPostAdapter
         FetchUserDetails()
+        getOtherUserPostList()
+
         return view
+    }
+
+    private fun getOtherUserPostList() {
+        Firebase.firestore.collection("posts").whereEqualTo("uid",OtherUser!!)
+            .orderBy("timestamp", Query.Direction.DESCENDING)
+            .get()
+            .addOnSuccessListener { result ->
+                otherUserPostList?.clear()
+                for (document in result) {
+                    Log.d("otherUserposts", "${document.id} => ${document.data}")
+                    val post = document.toObject<Post>()
+                    if (post != null )
+                    {
+                        otherUserPostList?.add(post)
+                    }
+                }
+                userPostAdapter?.notifyDataSetChanged()
+            }
+            .addOnFailureListener { exception ->
+                Log.d("otherUserposts", "Error getting documents: ", exception)
+            }
     }
 
     private fun AddUserToFollowList() {
