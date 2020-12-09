@@ -151,12 +151,12 @@ class PostItemAdapter (private var context: Context,
                 Log.d("postadapter", "profil33efrag " + snapshot?.data.toString())
 
                 if (snapshot != null && snapshot.exists()) {
-                    likesPostButton?.setImageResource(R.drawable.ic_like_icon)
-                    likesPostButton.setTag(1)
-                    Log.d("postadapter", "profil33e111frag " + snapshot?.exists().toString())
+                    likesPostButton.setImageResource(R.drawable.ic_like_icon)
+                    likesPostButton?.tag = 1
+                    Log.d("postadapter", "profil33e111frag " + snapshot.exists().toString())
                 } else {
-                    likesPostButton?.setImageResource(R.drawable.ic_unlike_icon)
-                    likesPostButton.setTag(0)
+                    likesPostButton.setImageResource(R.drawable.ic_unlike_icon)
+                    likesPostButton?.tag = 0
 
                     Log.d("postadapter", "profil33efrag " + snapshot?.exists().toString())
                 }
