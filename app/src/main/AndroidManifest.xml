@@ -15,8 +15,6 @@
         <activity android:name=".Login" />
         <activity android:name=".TestingActivity" />
         <activity android:name=".SignUp" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".CreatePost" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

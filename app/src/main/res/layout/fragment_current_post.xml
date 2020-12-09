@@ -3,42 +3,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.CurrentPostFragment"
-    android:layout_above="@+id/bottomNavViewBar"
-   >
+    android:layout_above="@+id/bottomNavViewBar">
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="404dp"
             android:layout_height="match_parent"
-            android:layout_margin="20px"
-            android:layout_marginStart="20px"
-            android:layout_marginTop="20px"
-            android:layout_marginEnd="20px">
+            android:layout_margin="10dp">
 
 
             <ImageView
                 android:id="@+id/CurrentPostImage_imageView"
                 android:layout_width="match_parent"
-                android:layout_height="278dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="0dp"
-                android:layout_marginEnd="0dp"
-                android:padding="5dp"
+                android:layout_height="150dp"
+                app:layout_constraintTop_toBottomOf="@+id/Currentotheruser_username_textView"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
                 android:id="@+id/Currentotheruser_username_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/CurrentPostImage_imageView"
-                android:layout_alignStart="@+id/CurrentPostImage_imageView"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="9dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
                 android:gravity="center"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/black"
+                android:textSize="14sp"
                 android:text="user name" />
 
-            <TextView
+           <!-- <TextView
                 android:id="@+id/CurrentTitle_post_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -48,52 +44,57 @@
                 android:layout_marginTop="29dp"
                 android:gravity="center"
                 android:text="Title of the post"
-                android:textSize="12dp" />
+                android:textSize="12dp" />-->
 
-            <Button
+            <ImageView
                 android:id="@+id/CurrentLikes_post_button"
-                android:layout_width="49dp"
-                android:layout_height="20dp"
-                android:layout_below="@+id/CurrentPostImage_imageView"
-                android:layout_alignStart="@+id/CurrentPostImage_imageView"
-                android:layout_marginStart="-1dp"
-                android:layout_marginTop="48dp"
-                android:background="#000000"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_unlike_icon"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/CurrentPostImage_imageView"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/CurrentaddComment_editText"
                 android:text="Like"
                 android:textColor="#FAFAFB" />
 
 
             <EditText
                 android:id="@+id/CurrentaddComment_editText"
-                android:layout_width="292dp"
-                android:layout_height="38dp"
-                android:layout_below="@+id/CurrentLikes_post_button"
-                android:layout_alignStart="@+id/CurrentLikes_post_button"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="1dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:paddingRight="30dp"
+                app:layout_constraintTop_toBottomOf="@+id/CurrentPostImage_imageView"
+                app:layout_constraintLeft_toRightOf="@+id/CurrentLikes_post_button"
                 android:hint="Want to add a comment?..." />
 
-            <Button
+            <ImageView
                 android:id="@+id/Currentsave_comments_button"
-                android:layout_width="69dp"
-                android:layout_height="36dp"
-                android:layout_below="@+id/CurrentTitle_post_textView"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="306dp"
-                android:layout_marginTop="23dp"
-                android:layout_marginEnd="14dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_send"
+                app:tint="@color/colorAccent"
+                android:padding="3dp"
+                android:layout_marginRight="20dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/CurrentPostImage_imageView"
+                app:layout_constraintBottom_toBottomOf="@+id/CurrentaddComment_editText"
                 android:text="Save" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/post_comments_recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/CurrentaddComment_editText"
-                android:layout_alignParentBottom="true"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="0dp" />
+                android:layout_width="0dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="50dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/CurrentaddComment_editText"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
 
 
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

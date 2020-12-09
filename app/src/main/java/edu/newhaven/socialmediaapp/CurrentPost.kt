@@ -36,6 +36,7 @@ class CurrentPost : AppCompatActivity() {
             .load(postUrl)
             .resize(50, 50)
             .centerCrop()
+            .placeholder(R.drawable.ic_logo)
             .into(imageView_post)
         textView_Description.setText(postDescription.toString())
     }

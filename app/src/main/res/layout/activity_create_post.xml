@@ -1,45 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".CreatePost">
+    android:layout_height="match_parent">
 
     <Button
         android:id="@+id/selectImg"
-        android:layout_width="143dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/uploadImg"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="109dp"
-        android:layout_toStartOf="@+id/uploadImg"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:background="@color/white"
+        android:layout_margin="10dp"
+        android:textColor="@color/colorAccent"
         android:text="Select Image" />
 
     <Button
         android:id="@+id/uploadImg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/description"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="9dp"
-        android:layout_marginBottom="74dp"
-        android:text="UploadButton" />
+        app:layout_constraintTop_toBottomOf="@+id/title_edittext"
+        android:layout_marginTop="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textColor="@color/white"
+        android:padding="15dp"
+        android:textSize="12sp"
+        android:background="@drawable/button_shape"
+        android:text="Upload Post" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="350dp"
-        android:layout_height="400dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="30dp"
-        android:layout_marginBottom="49dp" />
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_margin="10dp"
+        android:src="@android:drawable/ic_menu_camera"
+        app:layout_constraintTop_toBottomOf="@+id/selectImg"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <EditText
         android:id="@+id/title_edittext"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/imageView"
-        android:layout_marginBottom="59dp"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         android:hint="Post description......" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -114,7 +114,7 @@ class EditProfileActivity : AppCompatActivity() {
                         Picasso.get().load(myUrl).into(profile_pic_edit)
 
                     }
-                    Toast.makeText(this, document.data.toString(), Toast.LENGTH_SHORT).show()
+                   // Toast.makeText(this, document.data.toString(), Toast.LENGTH_SHORT).show()
                     editFullName_text.setText(document.data!!["fullname"].toString())
                     if(document.data!!["bio"].toString() !== ""){
                         editBio_text.setText(document.data!!["bio"].toString())
@@ -157,7 +157,7 @@ class EditProfileActivity : AppCompatActivity() {
                         val downloadUrl = task.result
                         myUrl = downloadUrl!!.toString()
                         Toast.makeText(this, "url", Toast.LENGTH_SHORT).show()
-                        Toast.makeText(this, myUrl, Toast.LENGTH_SHORT).show()
+                       // Toast.makeText(this, myUrl, Toast.LENGTH_SHORT).show()
                         SaveChangesToDb(myUrl, pd)
                     }
                 }

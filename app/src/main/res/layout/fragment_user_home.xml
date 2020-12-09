@@ -10,8 +10,8 @@
         android:id="@+id/posts_homeFrag_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:layout_marginBottom="40dp"
         android:layout_alignParentBottom="true">
 

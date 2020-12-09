@@ -5,7 +5,7 @@
     <string name="Email_Address">Email Address</string>
     <string name="Password">Password</string>
     <string name="Submit">Submit</string>
-    <string name="Dont_have_Account">Dont have an account? Sign up now!</string>
+    <string name="Dont_have_Account">Dont have an account? </string>
     <string name="Have_Account">Have Account?</string>
     <string name="FullName">Full Name</string>
     <string name="UserName">UserName</string>
