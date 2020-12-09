@@ -48,7 +48,7 @@ class PostItemAdapter (private var context: Context,
         val postItem = postList[position]
         Log.d("TAG333", "postsss1")
         holder.otheruser_username_textView.text = postItem.username
-        holder.Title_post_textView.text = postItem.title
+       // holder.Title_post_textView.text = postItem.title
         Picasso.get().load(postItem.image).placeholder(R.drawable.ic_logo).into(holder.PostImage_imageView)
         UpdateLikeStatus(postItem,holder.Likes_post_button)
 
@@ -60,14 +60,14 @@ class PostItemAdapter (private var context: Context,
             saveComment(postItem,holder.addComment_editText)
         }
 
-        holder.Comments_post_textView.setOnClickListener(View.OnClickListener {
-            val preference = context.getSharedPreferences("POST", Context.MODE_PRIVATE).edit()
-            preference.putString("PostID", postItem.postid)
-            preference.apply()
-
-            (context as FragmentActivity).supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, CurrentPostFragment()).commit()
-        })
+//        holder.Comments_post_textView.setOnClickListener(View.OnClickListener {
+//            val preference = context.getSharedPreferences("POST", Context.MODE_PRIVATE).edit()
+//            preference.putString("PostID", postItem.postid)
+//            preference.apply()
+//
+//            (context as FragmentActivity).supportFragmentManager.beginTransaction()
+//                .replace(R.id.fragment_container, CurrentPostFragment()).commit()
+//        })
 
         holder.itemView.setOnClickListener (View.OnClickListener {
             val preference = context.getSharedPreferences("POST", Context.MODE_PRIVATE).edit()
@@ -122,14 +122,14 @@ class PostItemAdapter (private var context: Context,
         Log.d("comment", "Comment successfull")
     }
 
-    private fun AddUserLiked(postItem: Post, likesPostButton: Button) {
-        if(likesPostButton.text == "Like"){
+    private fun AddUserLiked(postItem: Post, likesPostButton: ImageView) {
+        if(likesPostButton.tag == 1){
             Firebase.firestore.collection("posts")
                 .document(postItem.postid)
                 .collection("likes")
                 .document(CurrentUser!!.uid)
                 .set(data)
-        }else if(likesPostButton.text == "Liked"){
+        }else if(likesPostButton.tag == 0){
             Firebase.firestore.collection("posts")
                 .document(postItem.postid)
                 .collection("likes")
@@ -138,7 +138,7 @@ class PostItemAdapter (private var context: Context,
         }
     }
 
-    private fun UpdateLikeStatus(postItem: Post, likesPostButton: Button) {
+    private fun UpdateLikeStatus(postItem: Post, likesPostButton: ImageView) {
         Firebase.firestore.collection("posts")
             .document(postItem.postid)
             .collection("likes")
@@ -151,12 +151,12 @@ class PostItemAdapter (private var context: Context,
                 Log.d("postadapter", "profil33efrag " + snapshot?.data.toString())
 
                 if (snapshot != null && snapshot.exists()) {
-                    likesPostButton?.text = "Liked"
-                    likesPostButton.setBackgroundColor(Color.RED)
+                    likesPostButton?.setImageResource(R.drawable.ic_like_icon)
+                    likesPostButton.setTag(1)
                     Log.d("postadapter", "profil33e111frag " + snapshot?.exists().toString())
                 } else {
-                   likesPostButton?.text = "Like"
-                    likesPostButton.setBackgroundColor(Color.BLACK)
+                    likesPostButton?.setImageResource(R.drawable.ic_unlike_icon)
+                    likesPostButton.setTag(0)
 
                     Log.d("postadapter", "profil33efrag " + snapshot?.exists().toString())
                 }
@@ -166,12 +166,12 @@ class PostItemAdapter (private var context: Context,
 
     class ViewHolder(@NonNull itemView: View) : RecyclerView.ViewHolder(itemView) {
         var otheruser_username_textView: TextView = itemView.findViewById(R.id.otheruser_username_textView)
-        var Title_post_textView: TextView = itemView.findViewById(R.id.Title_post_textView)
+      //  var Title_post_textView: TextView = itemView.findViewById(R.id.Title_post_textView)
         var PostImage_imageView: ImageView = itemView.findViewById(R.id.PostImage_imageView)
-        var Likes_post_button: Button = itemView.findViewById(R.id.Likes_post_button)
+        var Likes_post_button: ImageView = itemView.findViewById(R.id.Likes_post_button)
         var addComment_editText: EditText = itemView.findViewById(R.id.addComment_editText)
-        var save_comments_button: Button = itemView.findViewById(R.id.save_comments_button)
-        var Comments_post_textView: TextView = itemView.findViewById(R.id.Comments_post_textView)
+        var save_comments_button: ImageView = itemView.findViewById(R.id.send_comment)
+       // var Comments_post_textView: TextView = itemView.findViewById(R.id.Comments_post_textView)
 
     }
 }
