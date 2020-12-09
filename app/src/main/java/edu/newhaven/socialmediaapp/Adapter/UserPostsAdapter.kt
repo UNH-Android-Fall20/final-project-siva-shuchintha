@@ -29,8 +29,6 @@ class UserPostsAdapter(private var context: Context,
                        private var userPostList: List<Post>,
                        private var isFragment: Boolean = false) : RecyclerView.Adapter<UserPostsAdapter.ViewHolder>() {
 
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserPostsAdapter.ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.user_post_item_profilepage, parent, false)
         Log.d("Userpostsadapter", "postsss")

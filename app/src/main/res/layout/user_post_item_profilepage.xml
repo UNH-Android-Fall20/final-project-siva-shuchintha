@@ -1,27 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="30px">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+    android:layout_margin="5dp">
 
         <ImageView
             android:id="@+id/UserPostImage_imageView"
-            android:layout_width="199dp"
-            android:layout_height="193dp"
+            android:layout_width="wrap_content"
+            android:layout_height="120dp"
             android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="112dp"
-            android:padding="5dp"
+            android:scaleType="fitXY"
             tools:srcCompat="@tools:sample/avatars" />
 
     </RelativeLayout>
-
-</RelativeLayout>
