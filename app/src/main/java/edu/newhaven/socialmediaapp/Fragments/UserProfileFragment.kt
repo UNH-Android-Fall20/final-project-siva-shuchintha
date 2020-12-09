@@ -26,7 +26,6 @@ import edu.newhaven.socialmediaapp.R
 import edu.newhaven.socialmediaapp.TestingActivity
 import edu.newhaven.socialmediaapp.models.Comment
 import edu.newhaven.socialmediaapp.models.Post
-import kotlinx.android.synthetic.main.fragment_user_profile.*
 import kotlinx.android.synthetic.main.fragment_user_profile.view.*
 import java.util.ArrayList
 
@@ -44,23 +43,23 @@ class UserProfileFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_user_profile, container, false)
         CurrentUser = FirebaseAuth.getInstance().currentUser!!
-//        view.editProfileButton.setOnClickListener {
-//            startActivity(Intent(activity, EditProfileActivity::class.java))
-//            (activity as Activity?)!!.overridePendingTransition(0, 0)
-//        }
+        view.editProfileButton.setOnClickListener {
+            startActivity(Intent(activity, EditProfileActivity::class.java))
+            (activity as Activity?)!!.overridePendingTransition(0, 0)
+        }
         auth = FirebaseAuth.getInstance()
 
         recyclerView = view.findViewById(R.id.user_post_recyclerView)
         recyclerView?.setHasFixedSize(true)
-        recyclerView?.layoutManager = GridLayoutManager(context,3)
+        recyclerView?.layoutManager = LinearLayoutManager(context)
         userPostList = ArrayList()
         userPostAdapter = context?.let { UserPostsAdapter(it, userPostList as ArrayList<Post>, true) }
         recyclerView?.adapter = userPostAdapter
         FetchUserDetails()
         getUserPostList()
-//        view.Logout_button.setOnClickListener {
-//            auth.signOut()
-//        }
+        view.Logout_button.setOnClickListener {
+            auth.signOut()
+        }
         return view
     }
     private fun getUserPostList() {
@@ -75,7 +74,6 @@ class UserProfileFragment : Fragment() {
                     if (post != null )
                     {
                         userPostList?.add(post)
-
                     }
                 }
                 userPostAdapter?.notifyDataSetChanged()
@@ -105,8 +103,7 @@ class UserProfileFragment : Fragment() {
                     Log.d("tagabc", "${document.id} => ${document.data}")
                     count++
                 }
-                view?.numberofFollowers_textView?.text = "Followers : ${count.toString()}"
-                view?.numberofPosts_textView?.text = "Posts : ${userPostList?.size}"
+                view?.numberofFollowers_textView?.text = count.toString()
 
             }
             .addOnFailureListener { exception ->
@@ -129,7 +126,7 @@ class UserProfileFragment : Fragment() {
                     count++
 
                 }
-                view?.numberofFollowing_textView?.text = "Following : ${count.toString()}"
+                view?.numberofFollowing_textView?.text = count.toString()
 
             }.addOnFailureListener { exception ->
                 Log.d("tagabc", "Error getting documents: ", exception)
@@ -150,10 +147,10 @@ class UserProfileFragment : Fragment() {
                         )
                         Picasso.get().load(document.data!!["profileimage"].toString()).into(view?.ProfileImage_Imageview)
                     }
-                    view?.UserName_textView?.setText(": "+document.data!!["username"].toString())
-                  //  view?.FullName_textView?.setText(document.data!!["fullname"].toString())
+                    view?.UserName_textView?.setText(document.data!!["username"].toString())
+                    view?.FullName_textView?.setText(document.data!!["fullname"].toString())
                     if(document.data!!["bio"].toString() !== ""){
-                        view?.Bio_textView?.setText(": "+document.data!!["bio"].toString())
+                        view?.Bio_textView?.setText(document.data!!["bio"].toString())
                     }
                 } else {
                     Log.d("TagUser", "error finding doc")
