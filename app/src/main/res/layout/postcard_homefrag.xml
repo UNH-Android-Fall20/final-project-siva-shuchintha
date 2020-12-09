@@ -6,35 +6,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="30px">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-
-
-        <ImageView
-            android:id="@+id/PostImage_imageView"
-            android:layout_width="365dp"
-            android:layout_height="284dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="13dp"
-            android:layout_marginEnd="13dp"
-            android:padding="5dp"
-            tools:srcCompat="@tools:sample/avatars" />
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/otheruser_username_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/PostImage_imageView"
-            android:layout_alignStart="@+id/PostImage_imageView"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="9dp"
-            android:gravity="center"
-            android:text="user name" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:text="User Name" />
 
-        <TextView
+        <ImageView
+            android:id="@+id/PostImage_imageView"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="5dp"
+            android:adjustViewBounds="true"
+            app:layout_constraintTop_toBottomOf="@+id/otheruser_username_textView"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+
+
+
+        <!--<TextView
             android:id="@+id/Title_post_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,22 +44,21 @@
             android:layout_marginTop="29dp"
             android:gravity="center"
             android:text="Title of the post"
-            android:textSize="12dp" />
+            android:textSize="12dp" />-->
 
-        <Button
+        <ImageView
             android:id="@+id/Likes_post_button"
-            android:layout_width="49dp"
-            android:layout_height="20dp"
-            android:layout_below="@+id/PostImage_imageView"
-            android:layout_alignStart="@+id/PostImage_imageView"
-            android:layout_marginStart="-1dp"
-            android:layout_marginTop="48dp"
-            android:background="#000000"
-            android:text="Like"
-            android:textColor="#FAFAFB" />
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_unlike_icon"
+            android:tag="0"
+            android:padding="2dp"
+            app:layout_constraintTop_toBottomOf="@+id/PostImage_imageView"
+            app:layout_constraintLeft_toLeftOf="parent"/>
 
 
-        <TextView
+     <!--   <TextView
             android:id="@+id/Comments_post_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -67,32 +66,30 @@
             android:layout_alignStart="@+id/Title_post_textView"
             android:layout_marginStart="58dp"
             android:layout_marginTop="48dp"
-            android:text="Comments" />
+            android:text="Comments" />-->
 
         <EditText
             android:id="@+id/addComment_editText"
-            android:layout_width="292dp"
-            android:layout_height="38dp"
-            android:layout_below="@+id/Comments_post_textView"
-            android:layout_alignStart="@+id/Likes_post_button"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="1dp"
-            android:hint="Want to add a comment?..." />
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/PostImage_imageView"
+            app:layout_constraintLeft_toRightOf="@+id/Likes_post_button"
+            app:layout_constraintRight_toLeftOf="@+id/send_comment"
+            android:hint="add a comment" />
 
-        <Button
-            android:id="@+id/save_comments_button"
-            android:layout_width="69dp"
-            android:layout_height="36dp"
-            android:layout_below="@+id/Title_post_textView"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="306dp"
-            android:layout_marginTop="23dp"
-            android:layout_marginEnd="14dp"
-            android:text="Save" />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/send_comment"
+            app:layout_constraintTop_toBottomOf="@+id/PostImage_imageView"
+            app:layout_constraintRight_toRightOf="parent"
+            android:src="@drawable/ic_send"
+            android:padding="5dp"
+            app:layout_constraintBottom_toBottomOf="@+id/addComment_editText"
+            app:tint="@color/colorAccent"/>
 
 
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>

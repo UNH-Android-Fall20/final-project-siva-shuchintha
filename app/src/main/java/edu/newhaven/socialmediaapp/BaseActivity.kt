@@ -20,22 +20,24 @@ class BaseActivity : AppCompatActivity() {
         fragmentTrans.commit()
         toolbar = supportActionBar!!
         val bottomNavigation: BottomNavigationView = findViewById(R.id.bottomNavViewBar)
-        bottomNavigation.setOnNavigationItemReselectedListener { item ->
+        bottomNavigation.setOnNavigationItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.ic_home -> {
                     val fragmentTrans = supportFragmentManager.beginTransaction()
                     fragmentTrans.replace(R.id.fragment_container, UserHomeFragment())
                     fragmentTrans.commit()
+                    true
 
                 }
                 R.id.ic_search -> {
                     val fragmentTrans = supportFragmentManager.beginTransaction()
                     fragmentTrans.replace(R.id.fragment_container, UserSearchFragment())
                     fragmentTrans.commit()
+                    true
                 }
                 R.id.ic_add -> {
                     startActivity(Intent(this, CreatePost::class.java))
-                    finish()
+                    true
                 }
                 R.id.ic_profile ->{
 //                    startActivity(Intent(this, ProfileActivity::class.java))
@@ -43,7 +45,9 @@ class BaseActivity : AppCompatActivity() {
                     val fragmentTrans = supportFragmentManager.beginTransaction()
                     fragmentTrans.replace(R.id.fragment_container, UserProfileFragment())
                     fragmentTrans.commit()
+                    true
                 }
+                else -> true
             }
         }
     }
