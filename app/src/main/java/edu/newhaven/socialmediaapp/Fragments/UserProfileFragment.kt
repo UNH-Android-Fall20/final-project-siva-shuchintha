@@ -175,7 +175,7 @@ class UserProfileFragment : Fragment() {
                         )
                         Picasso.get().load(document.data!!["profileimage"].toString()).into(view?.ProfileImage_Imageview)
                     }
-                    view?.UserName_textView?.setText(": "+document.data!!["username"].toString())
+                    view?.FullName_textView?.setText(": "+document.data!!["fullname"].toString())
                   //  view?.FullName_textView?.setText(document.data!!["fullname"].toString())
                     if(document.data!!["bio"].toString() !== ""){
                         view?.Bio_textView?.setText(": "+document.data!!["bio"].toString())
