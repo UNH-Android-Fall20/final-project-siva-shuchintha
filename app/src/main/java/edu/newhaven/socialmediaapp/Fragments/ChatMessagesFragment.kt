@@ -58,7 +58,7 @@ class ChatMessagesFragment : Fragment() {
 
     private fun saveMessage(messageList: ArrayList<Messages>, addMessage_editText: EditText) {
         if(addMessage_editText.text.toString().isEmpty()){
-            addMessage_editText.error = "Messages missing!"
+            addMessage_editText.error = "Message missing!"
             addMessage_editText.requestFocus()
             return
         }
@@ -77,7 +77,7 @@ class ChatMessagesFragment : Fragment() {
             }
     }
 
-    private fun setMessagesToFirestore(userName: String, addMessage_editText: EditText?, postID: Any) {
+    private fun setMessagesToFirestore(userName: String, addMessage_editText: EditText?) {
         Log.d("USERNAMEHERE", userName.toString())
         val dNow = Date()
         val ft = SimpleDateFormat("yyMMddhhmmssMs")
@@ -85,7 +85,7 @@ class ChatMessagesFragment : Fragment() {
         Log.d("USERNAMEHERE", userName.toString())
 
         var message = Messages(userName, addMessage_editText?.text.toString(),timestamp)
-        val idMessage = timestamp + CurrentUser!!.uid
+        val idMessage = timestamp + CurrentUser!!.uid + OtherUser.toString()
         Firebase.firestore.collection("users")
             .document(CurrentUser.uid)
             .collection("chats")
@@ -93,35 +93,33 @@ class ChatMessagesFragment : Fragment() {
             .document(idMessage)
             .set(message)
             .addOnCompleteListener {
-                fetchMessageListFromDb()
+                setMessagesToOtherUserFirestore(userName,addMessage_editText)
                 addMessage_editText!!.text.clear()
             }
         Log.d("comment", "Comment successfull")
     }
 
-    private fun fetchMessageListFromDb() {
+    private fun setMessagesToOtherUserFirestore(userName: String, addMessage_editText: EditText?) {
+        Log.d("USERNAMEHERE", userName.toString())
+        val dNow = Date()
+        val ft = SimpleDateFormat("yyMMddhhmmssMs")
+        var timestamp = ft.format(dNow)
+        Log.d("USERNAMEHERE", userName.toString())
+
+        var message = Messages(userName, addMessage_editText?.text.toString(),timestamp)
+        val idMessage = timestamp  + OtherUser.toString() + CurrentUser!!.uid
         Firebase.firestore.collection("users")
-            .document(CurrentUser.uid)
+            .document(OtherUser.toString())
             .collection("chats")
-            .document(OtherUser.toString()).collection("messages")
-            .orderBy("timestamp", Query.Direction.DESCENDING)
-            .get()
-            .addOnSuccessListener { result ->
-                messageList?.clear()
-                for (document in result) {
-                    Log.d("TAG22222", "${document.id} => ${document.data}")
-                    val message = document.toObject<Messages>()
-                    if (message != null )
-                    {
-                        messageList?.add(message)
-                    }
-                }
-                chatMessagesAdapter?.notifyDataSetChanged()
+            .document(CurrentUser.uid).collection("messages")
+            .document(idMessage)
+            .set(message)
+            .addOnCompleteListener {
+                FetchAllMessages()
             }
-            .addOnFailureListener { exception ->
-                Log.d("TAG22222", "Error getting documents: ", exception)
-            }
+        Log.d("comment", "Comment successfull")
     }
+
 
     private fun getAllMessages() {
         Log.d("tagabc", "profile11111 " )
@@ -161,7 +159,7 @@ class ChatMessagesFragment : Fragment() {
                 chatMessagesAdapter?.notifyDataSetChanged()
             }
             .addOnFailureListener { exception ->
-//                Log.w(TAG, "Error getting documents: ", exception)
+                Log.w("TAG", "Error getting documents: ", exception)
             }
     }
 
