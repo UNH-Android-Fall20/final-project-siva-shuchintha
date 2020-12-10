@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
 
-
     }
     public override fun onStart() {
         super.onStart()

@@ -53,6 +53,24 @@ class OtherUserProfileFragment : Fragment() {
                 RemoveUserFromFollowList()
             }
         }
+        view.ChatMessage_button.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("OtherUser", OtherUser)
+
+            val ldf = ChatMessagesFragment()
+            val args = Bundle()
+            args.putString("OtherUser", OtherUser)
+            ldf.setArguments(args)
+            val fragmentTrans = fragmentManager
+
+            if (fragmentTrans != null) {
+                fragmentTrans.beginTransaction().replace(R.id.fragment_container, ldf).commit()
+            }
+//            val fragmentTrans = fragmentManager
+//            if (fragmentTrans != null) {
+//                fragmentTrans.beginTransaction().replace(R.id.fragment_container, ChatMessagesFragment()).commit()
+//            }
+        }
         recyclerView = view.findViewById(R.id.otheruser_post_recyclerView)
         recyclerView?.setHasFixedSize(true)
         recyclerView?.layoutManager = GridLayoutManager(context,3)
