@@ -48,7 +48,7 @@ class ChatMessagesFragment : Fragment() {
         messageList = ArrayList()
         chatMessagesAdapter = context?.let { ChatMessagesAdapter(it, messageList as ArrayList<Messages>, true) }
         recyclerView?.adapter = chatMessagesAdapter
-        getAllMessages()
+        FetchAllMessages()
         view.save_message_button.setOnClickListener {
             saveMessage(messageList as ArrayList<Messages>,addMessage_editText)
         }
@@ -121,33 +121,13 @@ class ChatMessagesFragment : Fragment() {
     }
 
 
-    private fun getAllMessages() {
-        Log.d("tagabc", "profile11111 " )
-        Firebase.firestore.collection("users").document(CurrentUser?.uid)
-            .collection("chats").document(OtherUser!!).addSnapshotListener { snapshot, e ->
-                if (e != null) {
-                    Log.d("tagabc", "profil22efrag")
-                    return@addSnapshotListener
-                }
-                Log.d("tagabc", "profil33efrag " + snapshot?.data.toString())
-
-                if (snapshot != null && snapshot.exists()) {
-                    FetchAllMessages()
-                    Log.d("tagabc", "profil33e111frag " + snapshot?.exists().toString())
-
-                } else {
-                    Log.d("tagabc", "profil33efrag " + snapshot?.exists().toString())
-
-                }
-            }
-    }
 
     private fun FetchAllMessages() {
         Firebase.firestore.collection("users")
-            .document(CurrentUser.uid).collection("chats").document(OtherUser!!).collection("messages")
+            .document(CurrentUser.uid).collection("chats").document(OtherUser.toString()).collection("messages")
             .get().addOnSuccessListener { documents ->
                 Log.d("tagabc", "ddd " + documents!!.isEmpty())
-
+                messageList?.clear()
                 for (document in documents) {
                     Log.d("TAG22222", "${document.id} => ${document.data}")
                     val message = document.toObject<Messages>()
