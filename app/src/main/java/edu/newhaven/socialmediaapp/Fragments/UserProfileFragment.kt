@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,12 +19,10 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
+import edu.newhaven.socialmediaapp.*
 import edu.newhaven.socialmediaapp.Adapter.CommentsAdapter
 import edu.newhaven.socialmediaapp.Adapter.PostItemAdapter
 import edu.newhaven.socialmediaapp.Adapter.UserPostsAdapter
-import edu.newhaven.socialmediaapp.EditProfileActivity
-import edu.newhaven.socialmediaapp.R
-import edu.newhaven.socialmediaapp.TestingActivity
 import edu.newhaven.socialmediaapp.models.Comment
 import edu.newhaven.socialmediaapp.models.Post
 import kotlinx.android.synthetic.main.fragment_user_profile.view.*
@@ -59,6 +58,8 @@ class UserProfileFragment : Fragment() {
         getUserPostList()
         view.Logout_button.setOnClickListener {
             auth.signOut()
+            startActivity(Intent(activity, Login::class.java))
+
         }
         return view
     }
@@ -68,14 +69,18 @@ class UserProfileFragment : Fragment() {
             .get()
             .addOnSuccessListener { result ->
                 userPostList?.clear()
+                var count = 0
                 for (document in result) {
                     Log.d("Userposts", "${document.id} => ${document.data}")
                     val post = document.toObject<Post>()
+                    count++
                     if (post != null )
                     {
                         userPostList?.add(post)
                     }
                 }
+                view?.numberofPosts_textView?.text = count.toString()
+
                 userPostAdapter?.notifyDataSetChanged()
             }
             .addOnFailureListener { exception ->
