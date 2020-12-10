@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="30px">
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardCornerRadius="8dp"
+    android:layout_margin="5dp"
+    android:theme="@style/Theme.MaterialComponents.Light"
+    app:strokeColor="@color/colorAccent"
+    app:cardElevation="2dp">
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:layout_margin="5dp"
         android:layout_height="wrap_content">
 
         <TextView
@@ -52,8 +59,8 @@
             android:layout_height="30dp"
             android:layout_marginTop="10dp"
             android:src="@drawable/ic_unlike_icon"
-            android:tag="0"
             android:padding="2dp"
+            app:layout_constraintBottom_toBottomOf="@+id/addComment_editText"
             app:layout_constraintTop_toBottomOf="@+id/PostImage_imageView"
             app:layout_constraintLeft_toLeftOf="parent"/>
 
@@ -74,7 +81,9 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/PostImage_imageView"
             app:layout_constraintLeft_toRightOf="@+id/Likes_post_button"
-            app:layout_constraintRight_toLeftOf="@+id/send_comment"
+            app:layout_constraintRight_toRightOf="parent"
+            android:paddingRight="30dp"
+            android:layout_marginTop="10dp"
             android:hint="add a comment" />
 
         <ImageView
@@ -92,4 +101,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</RelativeLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -132,13 +132,13 @@ class CurrentPostFragment : Fragment() {
     }
 
     private fun AddUserLiked() {
-        if(CurrentLikes_post_button.text == "Like"){
+        if(CurrentLikes_post_button.tag == 1){
             Firebase.firestore.collection("posts")
                 .document(postID)
                 .collection("likes")
                 .document(CurrentUser!!.uid)
                 .set(data)
-        }else if(CurrentLikes_post_button.text == "Liked"){
+        }else if(CurrentLikes_post_button.tag == 0){
             Firebase.firestore.collection("posts")
                 .document(postID)
                 .collection("likes")
@@ -152,14 +152,14 @@ class CurrentPostFragment : Fragment() {
         Firebase.firestore.collection("posts").document(postID)
             .get().addOnSuccessListener { document ->
                 Log.d("TAG22222", "${document.id} => ${document.data}")
-                Toast.makeText(context, "${document.data}", Toast.LENGTH_SHORT).show()
+               // Toast.makeText(context, "${document.data}", Toast.LENGTH_SHORT).show()
                 if (document != null) {
                 Log.d("TAG22222", "${document.id} => ${document.data}")
                 if(document.data!!["image"].toString() !== ""){
-                    Picasso.get().load(document.data!!["image"].toString()).into(CurrentPostImage_imageView)
+                    Picasso.get().load(document.data!!["image"].toString()).placeholder(R.drawable.ic_logo).into(CurrentPostImage_imageView)
                 }
                 Currentotheruser_username_textView.setText(document.data!!["username"].toString())
-                CurrentTitle_post_textView.setText(document.data!!["title"].toString())
+                //CurrentTitle_post_textView.setText(document.data!!["title"].toString())
                 UpdateLikeStatus(postID)
             }
                 Log.d("TAG22222", "${document.id} => ${document.data}")
@@ -183,12 +183,14 @@ class CurrentPostFragment : Fragment() {
                 Log.d("postadapter", "profil33efrag " + snapshot?.data.toString())
 
                 if (snapshot != null && snapshot.exists()) {
-                    CurrentLikes_post_button?.text = "Liked"
-                    CurrentLikes_post_button.setBackgroundColor(Color.RED)
+                    CurrentLikes_post_button?.setImageResource(R.drawable.ic_like_icon)
+                    CurrentLikes_post_button.setTag(0)
+                    //CurrentLikes_post_button.setBackgroundColor(Color.RED)
                     Log.d("currentpostadapter", "currentpostadapter " + snapshot?.exists().toString())
                 } else {
-                    CurrentLikes_post_button?.text = "Like"
-                    CurrentLikes_post_button.setBackgroundColor(Color.BLACK)
+                    CurrentLikes_post_button?.setImageResource(R.drawable.ic_unlike_icon)
+                    CurrentLikes_post_button.setTag(1)
+                    //CurrentLikes_post_button.setBackgroundColor(Color.BLACK)
 
                     Log.d("currentpostadapter", "currentpostadapter " + snapshot?.exists().toString())
                 }

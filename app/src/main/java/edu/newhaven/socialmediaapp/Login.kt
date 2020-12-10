@@ -46,10 +46,10 @@ class Login : AppCompatActivity() {
                 if (task.isSuccessful) {
                     Toast.makeText(this,"Login successfull!", Toast.LENGTH_LONG).show()
                     startActivity(Intent(this@Login,BaseActivity::class.java))
+                    finish()
                 } else {
                     Toast.makeText(baseContext, "Login Failed!", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(this,Login::class.java))
-                    finish()
                 }
             }
     }

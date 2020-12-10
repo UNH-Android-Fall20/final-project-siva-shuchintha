@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="#444444"
+        android:background="@color/white"
         android:gravity="center"
         android:padding="25dp">
 
@@ -18,8 +18,8 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="40sp"
-            android:textColor="#ffffff"
+            android:textSize="25sp"
+            android:textColor="@color/colorAccent"
             android:padding="30dp"
             android:layout_marginBottom="20dp"
             android:textAlignment="center"
@@ -32,8 +32,8 @@
             android:layout_height="wrap_content"
             android:hint="@string/FullName"
             android:padding="10dp"
-            android:textColorHint="#ffffff"
-            android:textColor="#ffffff"
+            android:textColorHint="@color/lightGray"
+            android:textColor="@color/black"
             android:ems="10"/>
 
         <EditText
@@ -42,8 +42,8 @@
             android:layout_height="wrap_content"
             android:hint="@string/UserName"
             android:padding="10dp"
-            android:textColorHint="#ffffff"
-            android:textColor="#ffffff"
+            android:textColorHint="@color/lightGray"
+            android:textColor="@color/black"
             android:ems="10"/>
 
         <EditText
@@ -52,8 +52,8 @@
             android:layout_height="wrap_content"
             android:hint="@string/Email_Address"
             android:padding="10dp"
-            android:textColorHint="#ffffff"
-            android:textColor="#ffffff"
+            android:textColorHint="@color/lightGray"
+            android:textColor="@color/black"
             android:ems="10"
             android:inputType="textEmailAddress" />
 
@@ -63,8 +63,8 @@
             android:layout_height="wrap_content"
             android:hint="@string/Password"
             android:padding="10dp"
-            android:textColorHint="#ffffff"
-            android:textColor="#ffffff"
+            android:textColorHint="@color/lightGray"
+            android:textColor="@color/black"
             android:ems="10"
             android:inputType="textPassword" />
 
@@ -73,6 +73,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:background="@drawable/button_shape"
+            android:textColor="@color/white"
             android:textAllCaps="false"
             android:text="@string/SignUp" />
 
@@ -83,8 +85,8 @@
             android:padding="20dp"
             android:textAlignment="center"
             android:clickable="true"
-            android:textSize="18sp"
-            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:textColor="@color/colorAccent"
             android:text="@string/Have_Account" />
 
 

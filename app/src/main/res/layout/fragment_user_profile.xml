@@ -34,9 +34,40 @@
             android:layout_width="0dp"
             android:layout_height="120dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/lay_edit"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
+            android:src="@drawable/ic_profile_icon" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/lay_edit"
+            app:layout_constraintLeft_toRightOf="@+id/ProfileImage_Imageview"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+
+        <ImageView
+            android:id="@+id/edit_profile"
+            android:layout_width="30dp"
+            android:layout_height="25dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:src="@drawable/ic_edit_icon" />
+        <ImageView
+
+            android:id="@+id/logout"
+            android:layout_width="30dp"
+            android:layout_height="25dp"
+            app:layout_constraintLeft_toRightOf="@+id/edit_profile"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/ic_logout_icon" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         
 
         <TextView
@@ -63,16 +94,27 @@
             android:layout_marginTop="10dp"
             app:layout_constraintTop_toBottomOf="@+id/ProfileImage_Imageview"
             app:layout_constraintRight_toRightOf="parent"/>
-       
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:id="@+id/lay_profile"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:padding="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/profile_background"
+        app:layout_constraintTop_toBottomOf="@+id/numberofFollowers_textView"
+        android:layout_height="wrap_content">
+
         <TextView
             android:id="@+id/FullName_text"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="FullName"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="10dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/numberofFollowers_textView"
+            app:layout_constraintTop_toTopOf="parent"
             android:textSize="14sp" />
 
         <TextView
@@ -82,9 +124,8 @@
             android:text="USERNAME"
             android:textSize="14sp"
             android:textColor="@color/black"
-            android:layout_marginTop="20dp"
             app:layout_constraintLeft_toRightOf="@+id/FullName_text"
-            app:layout_constraintTop_toBottomOf="@+id/numberofFollowers_textView" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/bio_text"
@@ -102,7 +143,7 @@
             android:id="@+id/Bio_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="UserBio......"
+            android:text=": UserBio......"
             android:textSize="14sp"
             android:layout_marginTop="10dp"
             android:textColor="@color/black"
@@ -132,7 +173,7 @@
             app:layout_constraintLeft_toRightOf="@+id/website_text"
             app:layout_constraintTop_toBottomOf="@+id/bio_text" />
 
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/numberofPosts_textView"
@@ -145,16 +186,19 @@
             android:textColor="@color/black"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/website_text" />
+            app:layout_constraintTop_toBottomOf="@+id/lay_profile" />
 
       
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/user_post_recyclerView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/numberofPosts_textView" />
 
 

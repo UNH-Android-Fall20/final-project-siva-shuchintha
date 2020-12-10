@@ -1,4 +1,4 @@
-package edu.newhaven.socialmediaapp
+package edu.newhaven.socialmediaapp.Fragments
 
 import android.app.Activity
 import android.app.ProgressDialog
@@ -6,8 +6,11 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
@@ -15,12 +18,15 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.StorageTask
+import edu.newhaven.socialmediaapp.BaseActivity
+import edu.newhaven.socialmediaapp.R
 import edu.newhaven.socialmediaapp.models.Post
 import kotlinx.android.synthetic.main.activity_create_post.*
+import kotlinx.android.synthetic.main.activity_create_post.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CreatePost : AppCompatActivity() {
+class CreatePostFragment : Fragment() {
 
     lateinit var filepath: Uri
     private var myUrl = ""
@@ -29,19 +35,22 @@ class CreatePost : AppCompatActivity() {
     private lateinit var CurrentUser: FirebaseUser
     private lateinit var storageReference: StorageReference
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_create_post)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.activity_create_post, container, false)
 
         CurrentUser = FirebaseAuth.getInstance().currentUser!!
         getUserName()
-        selectImg.setOnClickListener {
+        view?.selectImg?.setOnClickListener {
             SelectImageFunc()
         }
 
-        uploadImg.setOnClickListener {
+        view?.uploadImg?.setOnClickListener {
             UploadPostWithDescription()
         }
+        return view
 
     }
 
@@ -61,7 +70,7 @@ class CreatePost : AppCompatActivity() {
 
     private fun UploadPostWithDescription() {
         if (filepath != null) {
-            var pd = ProgressDialog(this)
+            var pd = ProgressDialog(context)
             pd.setTitle("Uploading...")
             pd.show()
             storageReference = FirebaseStorage.getInstance().getReference(
@@ -83,8 +92,8 @@ class CreatePost : AppCompatActivity() {
                     if(task.isSuccessful){
                         val downloadUrl = task.result
                         myUrl = downloadUrl!!.toString()
-                        Toast.makeText(this, "url", Toast.LENGTH_SHORT).show()
-                        Toast.makeText(this, myUrl, Toast.LENGTH_SHORT).show()
+                       // Toast.makeText(context, "url", Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(context, myUrl, Toast.LENGTH_SHORT).show()
                         PostToDatabase(myUrl, pd)
                     }
                 }
@@ -108,19 +117,19 @@ class CreatePost : AppCompatActivity() {
             postId,
             timestamp.toString()
         )
-        Toast.makeText(this, "post", Toast.LENGTH_LONG).show()
+        Toast.makeText(context, "post", Toast.LENGTH_LONG).show()
 
             database.set(post).addOnSuccessListener {
             pd.dismiss()
-            val intent = Intent(this@CreatePost, BaseActivity::class.java)
+            val intent = Intent(context, BaseActivity::class.java)
             startActivity(intent)
-            Toast.makeText(this, title_edittext.text.toString(), Toast.LENGTH_LONG).show()
-            Toast.makeText(this, "Posted Successfully!", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, title_edittext.text.toString(), Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Posted Successfully!", Toast.LENGTH_LONG).show()
 
         }.addOnFailureListener {
             pd.dismiss()
 
-            Toast.makeText(this, "Post unsuccessfull!", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Post unsuccessfull!", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -139,7 +148,7 @@ class CreatePost : AppCompatActivity() {
             Log.d("Filepath", filepath.toString())
             imageView.setImageURI(filepath)
         } else {
-            Toast.makeText(this, "Error image upload", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Error image upload", Toast.LENGTH_LONG).show()
         }
     }
 }
