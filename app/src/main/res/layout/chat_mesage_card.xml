@@ -13,6 +13,7 @@
         android:id="@+id/chat_message_relativeLayout"
         android:paddingLeft="10dp"
         android:paddingRight="20dp"
+        android:background="#ffffff"
         >
 
 

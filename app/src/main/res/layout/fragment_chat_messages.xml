@@ -5,18 +5,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".Fragments.ChatMessagesFragment"
+        android:layout_margin="30px"
     >
 
     <EditText
         android:id="@+id/addMessage_editText"
         android:layout_width="wrap_content"
         android:layout_height="36dp"
+        android:layout_below="@+id/Chat_messages_RecyclerView"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="563dp"
-        android:layout_marginEnd="110dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="113dp"
+        android:background="#ffffff"
         android:hint="message..." />
 
     <Button
@@ -30,10 +32,12 @@
         android:layout_marginStart="318dp"
         android:layout_marginTop="-3dp"
         android:layout_marginEnd="2dp"
+        android:background="#ffffff"
         android:text="Save" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/Chat_messages_RecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="552dp" />
+        android:background="#ffffff"
+        android:layout_height="534dp" />
     </RelativeLayout>
