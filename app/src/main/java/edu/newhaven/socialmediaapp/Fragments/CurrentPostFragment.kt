@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -152,7 +151,6 @@ class CurrentPostFragment : Fragment() {
         Firebase.firestore.collection("posts").document(postID)
             .get().addOnSuccessListener { document ->
                 Log.d("TAG22222", "${document.id} => ${document.data}")
-               // Toast.makeText(context, "${document.data}", Toast.LENGTH_SHORT).show()
                 if (document != null) {
                 Log.d("TAG22222", "${document.id} => ${document.data}")
                 if(document.data!!["image"].toString() !== ""){
@@ -184,12 +182,12 @@ class CurrentPostFragment : Fragment() {
 
                 if (snapshot != null && snapshot.exists()) {
                     CurrentLikes_post_button?.setImageResource(R.drawable.ic_like_icon)
-                    CurrentLikes_post_button.setTag(0)
+                    CurrentLikes_post_button?.setTag(0)
                     //CurrentLikes_post_button.setBackgroundColor(Color.RED)
                     Log.d("currentpostadapter", "currentpostadapter " + snapshot?.exists().toString())
                 } else {
                     CurrentLikes_post_button?.setImageResource(R.drawable.ic_unlike_icon)
-                    CurrentLikes_post_button.setTag(1)
+                    CurrentLikes_post_button?.setTag(1)
                     //CurrentLikes_post_button.setBackgroundColor(Color.BLACK)
 
                     Log.d("currentpostadapter", "currentpostadapter " + snapshot?.exists().toString())

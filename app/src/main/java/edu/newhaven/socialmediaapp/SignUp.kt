@@ -19,7 +19,6 @@ import kotlinx.android.synthetic.main.activity_sign_up.*
 class SignUp : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
-//    private lateinit var database: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,7 +78,7 @@ class SignUp : AppCompatActivity() {
 
     private fun onAuthSuccess(user: FirebaseUser) {
         val profileImage = "https://firebasestorage.googleapis.com/v0/b/mbook-androidapplication.appspot.com/o/UPIYVUAqhWWxuF4Z8cMvGdJJEvw1.jpg?alt=media&token=4c2fb729-d868-4794-a8cc-9dda8ec692bb"
-        val userdetail = User(user.uid.toString(),SignUp_FullName.text.toString(),SignUp_UserName.text.toString(),user.email,profileImage,"")
+        val userdetail = User(user.uid.toString(),SignUp_FullName.text.toString().toLowerCase(),SignUp_UserName.text.toString(),user.email,profileImage,"")
 
         Toast.makeText(this, "Sign up successfull!",Toast.LENGTH_LONG).show()
         writeNewUser(userdetail)

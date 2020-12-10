@@ -92,8 +92,6 @@ class CreatePostFragment : Fragment() {
                     if(task.isSuccessful){
                         val downloadUrl = task.result
                         myUrl = downloadUrl!!.toString()
-                       // Toast.makeText(context, "url", Toast.LENGTH_SHORT).show()
-                        //Toast.makeText(context, myUrl, Toast.LENGTH_SHORT).show()
                         PostToDatabase(myUrl, pd)
                     }
                 }
@@ -117,13 +115,11 @@ class CreatePostFragment : Fragment() {
             postId,
             timestamp.toString()
         )
-        Toast.makeText(context, "post", Toast.LENGTH_LONG).show()
 
             database.set(post).addOnSuccessListener {
             pd.dismiss()
             val intent = Intent(context, BaseActivity::class.java)
             startActivity(intent)
-            Toast.makeText(context, title_edittext.text.toString(), Toast.LENGTH_LONG).show()
             Toast.makeText(context, "Posted Successfully!", Toast.LENGTH_LONG).show()
 
         }.addOnFailureListener {

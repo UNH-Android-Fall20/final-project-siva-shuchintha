@@ -84,6 +84,7 @@ class EditProfileActivity : AppCompatActivity() {
         database!!.delete()
             .addOnSuccessListener {
                 Log.d("DeleteAccSuccess", "Account successfully deleted!")
+                auth.signOut()
                 DeleteUserDataFirestore()
             }
             .addOnFailureListener { e -> Log.w("DeleteAccError", "Error deleting Account", e) }
@@ -94,8 +95,9 @@ class EditProfileActivity : AppCompatActivity() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d("TAG", "User Auth deleted!")
+
                     Toast.makeText(this, "Account Deleted Successfully", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this@EditProfileActivity, MainActivity::class.java))
+                    startActivity(Intent(this@EditProfileActivity, BaseActivity::class.java))
                     finish()
                 }
             }.addOnFailureListener { e ->
@@ -114,7 +116,6 @@ class EditProfileActivity : AppCompatActivity() {
                         Picasso.get().load(myUrl).into(profile_pic_edit)
 
                     }
-                   // Toast.makeText(this, document.data.toString(), Toast.LENGTH_SHORT).show()
                     editFullName_text.setText(document.data!!["fullname"].toString())
                     if(document.data!!["bio"].toString() !== ""){
                         editBio_text.setText(document.data!!["bio"].toString())
@@ -156,8 +157,6 @@ class EditProfileActivity : AppCompatActivity() {
                     if(task.isSuccessful){
                         val downloadUrl = task.result
                         myUrl = downloadUrl!!.toString()
-                        Toast.makeText(this, "url", Toast.LENGTH_SHORT).show()
-                       // Toast.makeText(this, myUrl, Toast.LENGTH_SHORT).show()
                         SaveChangesToDb(myUrl, pd)
                     }
                 }
@@ -184,7 +183,7 @@ class EditProfileActivity : AppCompatActivity() {
         val data = hashMapOf(
             "profileimage" to myUrl,
             "bio" to editBio_text.text.toString(),
-            "fullname" to editFullName_text.text.toString()
+            "fullname" to editFullName_text.text.toString().toLowerCase()
         )
 
         database!!.set(data, SetOptions.merge()).addOnSuccessListener {
