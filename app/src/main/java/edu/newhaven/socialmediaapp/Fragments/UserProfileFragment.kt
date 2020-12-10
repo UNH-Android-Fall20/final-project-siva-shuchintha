@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -22,9 +21,11 @@ import com.squareup.picasso.Picasso
 import edu.newhaven.socialmediaapp.Adapter.UserPostsAdapter
 import edu.newhaven.socialmediaapp.BaseActivity
 import edu.newhaven.socialmediaapp.EditProfileActivity
+import edu.newhaven.socialmediaapp.Login
 import edu.newhaven.socialmediaapp.R
 import edu.newhaven.socialmediaapp.models.Post
 import kotlinx.android.synthetic.main.activity_base.*
+import kotlinx.android.synthetic.main.fragment_user_profile.*
 import kotlinx.android.synthetic.main.fragment_user_profile.view.*
 import java.util.*
 
@@ -41,13 +42,28 @@ class UserProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_user_profile, container, false)
+
         CurrentUser = FirebaseAuth.getInstance().currentUser!!
 
-        view.edit_profile.setOnClickListener {
-            startActivity(Intent(activity, EditProfileActivity::class.java))
-            (activity as Activity?)!!.overridePendingTransition(0, 0)
-        }
+
+//        view.edit_profile.setOnClickListener {
+//            startActivity(Intent(activity, EditProfileActivity::class.java))
+//            (activity as Activity?)!!.overridePendingTransition(0, 0)
+//        }
         auth = FirebaseAuth.getInstance()
+
+       view?.profile_toolbar?.setOnMenuItemClickListener{
+            when(it.itemId){
+                R.id.miEdit ->  startActivity(Intent(activity, EditProfileActivity::class.java))
+                R.id.miLogout -> {
+                    auth.signOut()
+                    activity?.finish()
+                    startActivity(Intent(context, Login::class.java))
+                }
+            }
+             false;
+
+        }
 
 
         recyclerView = view.findViewById(R.id.user_post_recyclerView)
@@ -59,10 +75,10 @@ class UserProfileFragment : Fragment() {
         FetchUserDetails()
         getUserPostList()
 
-        view.logout.setOnClickListener {
-            auth.signOut()
-            activity?.finish()
-        }
+//        view.logout.setOnClickListener {
+//            auth.signOut()
+//            activity?.finish()
+//        }
 
         return view
     }
@@ -74,19 +90,15 @@ class UserProfileFragment : Fragment() {
             .get()
             .addOnSuccessListener { result ->
                 userPostList?.clear()
-                var count = 0
                 for (document in result) {
                     Log.d("Userposts", "${document.id} => ${document.data}")
                     val post = document.toObject<Post>()
-                    count++
                     if (post != null )
                     {
                         userPostList?.add(post)
 
                     }
                 }
-                view?.numberofPosts_textView?.text = count.toString()
-
                 userPostAdapter?.notifyDataSetChanged()
                 view?.numberofPosts_textView?.text = "Posts : ${userPostList?.size}"
 
@@ -161,7 +173,7 @@ class UserProfileFragment : Fragment() {
                             "TAG0",
                             "DocumentSnapshot data: ${document.data!!["profileimage"].toString()}"
                         )
-                        Picasso.get().load(document.data!!["profileimage"].toString()).placeholder(R.drawable.ic_profile_icon).into(view?.ProfileImage_Imageview)
+                        Picasso.get().load(document.data!!["profileimage"].toString()).into(view?.ProfileImage_Imageview)
                     }
                     view?.UserName_textView?.setText(": "+document.data!!["username"].toString())
                   //  view?.FullName_textView?.setText(document.data!!["fullname"].toString())

@@ -15,6 +15,8 @@ class Login : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         auth = FirebaseAuth.getInstance()
 
+        getSupportActionBar()?.hide();
+
         button_Login.setOnClickListener {
             UserLogin()
         }

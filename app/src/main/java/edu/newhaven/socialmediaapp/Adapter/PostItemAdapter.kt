@@ -77,7 +77,18 @@ class PostItemAdapter (private var context: Context,
             (context as FragmentActivity).supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, CurrentPostFragment()).commit()
         })
+
+        holder.otheruser_username_textView.setOnClickListener (View.OnClickListener {
+
+            val preference = context.getSharedPreferences("USER", Context.MODE_PRIVATE).edit()
+            preference.putString("OtherUser", postItem.uid)
+            preference.apply()
+
+            (context as FragmentActivity).supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, OtherUserProfileFragment()).commit()
+        })
     }
+
 
     private fun saveComment(postItem: Post, addcommentEdittext: EditText) {
         if(addcommentEdittext.text.toString().isEmpty()){

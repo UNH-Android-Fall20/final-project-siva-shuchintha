@@ -28,6 +28,8 @@ class SignUp : AppCompatActivity() {
         button_Signup.setOnClickListener {
             userSignUp()
         }
+
+        getSupportActionBar()?.hide();
         textview_Login.setOnClickListener {
             startActivity(Intent(this,MainActivity::class.java))
             finish()

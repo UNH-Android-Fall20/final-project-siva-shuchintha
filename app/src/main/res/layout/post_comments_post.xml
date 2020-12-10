@@ -29,5 +29,11 @@
         android:text="User comment will be displayed here"
         android:textSize="14sp" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/ash"
+        android:layout_below="@+id/comment_textView"
+        android:layout_marginTop="10dp"/>
 
 </RelativeLayout>
