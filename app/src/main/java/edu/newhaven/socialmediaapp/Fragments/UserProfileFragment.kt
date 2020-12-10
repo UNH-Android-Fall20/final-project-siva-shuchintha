@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -73,15 +74,19 @@ class UserProfileFragment : Fragment() {
             .get()
             .addOnSuccessListener { result ->
                 userPostList?.clear()
+                var count = 0
                 for (document in result) {
                     Log.d("Userposts", "${document.id} => ${document.data}")
                     val post = document.toObject<Post>()
+                    count++
                     if (post != null )
                     {
                         userPostList?.add(post)
 
                     }
                 }
+                view?.numberofPosts_textView?.text = count.toString()
+
                 userPostAdapter?.notifyDataSetChanged()
                 view?.numberofPosts_textView?.text = "Posts : ${userPostList?.size}"
 

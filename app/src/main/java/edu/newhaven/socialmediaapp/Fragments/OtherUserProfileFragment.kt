@@ -3,10 +3,10 @@ package edu.newhaven.socialmediaapp.Fragments
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,11 +17,12 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
-import edu.newhaven.socialmediaapp.Adapter.UserPostsAdapter
 import edu.newhaven.socialmediaapp.R
+import edu.newhaven.socialmediaapp.Adapter.UserPostsAdapter
 import edu.newhaven.socialmediaapp.models.Post
 import kotlinx.android.synthetic.main.fragment_other_user_profile.*
 import kotlinx.android.synthetic.main.fragment_other_user_profile.view.*
+import java.util.*
 import kotlinx.android.synthetic.main.fragment_user_profile.view.*
 import java.util.ArrayList
 
@@ -43,7 +44,7 @@ class OtherUserProfileFragment : Fragment() {
         val preference = context?.getSharedPreferences("USER", Context.MODE_PRIVATE)
         if (preference != null) {
             this.OtherUser = preference.getString("OtherUser", "null")!!
-            Log.d("tagabc","pref"+ OtherUser.toString())
+            Log.d("tagabc", "pref" + OtherUser.toString())
             FetchUserFollowStatus()
         }
         view.followButtonOtherUser.setOnClickListener {
@@ -53,11 +54,33 @@ class OtherUserProfileFragment : Fragment() {
                 RemoveUserFromFollowList()
             }
         }
+        view.ChatMessage_button.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("OtherUser", OtherUser)
+
+            val ldf = ChatMessagesFragment()
+            val args = Bundle()
+            args.putString("OtherUser", OtherUser)
+            ldf.setArguments(args)
+            val fragmentTrans = fragmentManager
+
+            if (fragmentTrans != null) {
+                fragmentTrans.beginTransaction().replace(R.id.fragment_container, ldf).commit()
+            }
+//            val fragmentTrans = fragmentManager
+//            if (fragmentTrans != null) {
+//                fragmentTrans.beginTransaction().replace(R.id.fragment_container, ChatMessagesFragment()).commit()
+//            }
+        }
         recyclerView = view.findViewById(R.id.otheruser_post_recyclerView)
         recyclerView?.setHasFixedSize(true)
         recyclerView?.layoutManager = GridLayoutManager(context,3)
         otherUserPostList = ArrayList()
-        userPostAdapter = context?.let { UserPostsAdapter(it, otherUserPostList as ArrayList<Post>, true) }
+        userPostAdapter = context?.let { UserPostsAdapter(
+            it,
+            otherUserPostList as ArrayList<Post>,
+            true
+        ) }
         recyclerView?.adapter = userPostAdapter
         FetchUserDetails()
         getOtherUserPostList()
@@ -66,19 +89,24 @@ class OtherUserProfileFragment : Fragment() {
     }
 
     private fun getOtherUserPostList() {
-        Firebase.firestore.collection("posts").whereEqualTo("uid",OtherUser!!)
+        Firebase.firestore.collection("posts").whereEqualTo("uid", OtherUser!!)
             .orderBy("timestamp", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { result ->
                 otherUserPostList?.clear()
+                var count = 0
+
                 for (document in result) {
                     Log.d("otherUserposts", "${document.id} => ${document.data}")
                     val post = document.toObject<Post>()
+                    count++
+
                     if (post != null )
                     {
                         otherUserPostList?.add(post)
                     }
                 }
+                view?.numberofPostsOtherUser_textView?.text = count.toString()
                 userPostAdapter?.notifyDataSetChanged()
                 view?.numberofPostsOtherUser_textView?.text = "Posts : ${otherUserPostList?.size}"
             }
@@ -108,7 +136,7 @@ class OtherUserProfileFragment : Fragment() {
     }
 
     private fun FetchUserFollowStatus() {
-        Log.d("tagabc", "profile11111 "+ OtherUser )
+        Log.d("tagabc", "profile11111 " + OtherUser)
         Firebase.firestore.collection("follow_and_following").document(CurrentUser?.uid)
                 .collection("followingUid").document(OtherUser).addSnapshotListener { snapshot, e ->
             if (e != null) {
@@ -147,7 +175,7 @@ class OtherUserProfileFragment : Fragment() {
             .document(OtherUser)
             .collection("followersUid")
             .get().addOnSuccessListener { documents ->
-            Log.d("tagabc","ddd "+ documents!!.isEmpty())
+            Log.d("tagabc", "ddd " + documents!!.isEmpty())
 
             for (document in documents) {
                 Log.d("tagabc", "${document.id} => ${document.data}")
@@ -169,10 +197,10 @@ class OtherUserProfileFragment : Fragment() {
             .document(OtherUser)
             .collection("followingUid")
             .get().addOnSuccessListener { result ->
-            Log.d("tagabc", "aaa"+result.documents.toString())
+            Log.d("tagabc", "aaa" + result.documents.toString())
 
             for (document in result) {
-                Log.d("tagabc", "aaa"+"${document.id} => ${document.data}")
+                Log.d("tagabc", "aaa" + "${document.id} => ${document.data}")
 
                 count++
 

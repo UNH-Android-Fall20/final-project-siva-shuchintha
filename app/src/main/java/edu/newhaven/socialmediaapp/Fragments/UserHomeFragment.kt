@@ -36,6 +36,7 @@ class UserHomeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_user_home, container, false)
+
         CurrentUser = FirebaseAuth.getInstance().currentUser!!
         recyclerView = view.findViewById(R.id.posts_homeFrag_recyclerView)
         recyclerView?.setHasFixedSize(true)

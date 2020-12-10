@@ -29,11 +29,6 @@ class UserSearchFragment : Fragment() {
     private lateinit var CurrentUser: FirebaseUser
     private var userList: MutableList<User>? = null
 
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        arguments?.let {
-//        }
-//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

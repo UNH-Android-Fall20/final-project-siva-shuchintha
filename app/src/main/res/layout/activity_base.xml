@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="#FFFFFF"
+    android:backgroundTint="#d3d3d3"
     tools:context=".BaseActivity">
 
 
@@ -19,6 +19,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@+id/bottomNavViewBar"
+                android:background="#f2f2f2"
+
                 >
             </FrameLayout>
 
