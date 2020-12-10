@@ -7,10 +7,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -19,14 +19,14 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
-import edu.newhaven.socialmediaapp.*
-import edu.newhaven.socialmediaapp.Adapter.CommentsAdapter
-import edu.newhaven.socialmediaapp.Adapter.PostItemAdapter
 import edu.newhaven.socialmediaapp.Adapter.UserPostsAdapter
-import edu.newhaven.socialmediaapp.models.Comment
+import edu.newhaven.socialmediaapp.BaseActivity
+import edu.newhaven.socialmediaapp.EditProfileActivity
+import edu.newhaven.socialmediaapp.R
 import edu.newhaven.socialmediaapp.models.Post
+import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.fragment_user_profile.view.*
-import java.util.ArrayList
+import java.util.*
 
 
 class UserProfileFragment : Fragment() {
@@ -42,27 +42,32 @@ class UserProfileFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_user_profile, container, false)
         CurrentUser = FirebaseAuth.getInstance().currentUser!!
-        view.editProfileButton.setOnClickListener {
+
+        view.edit_profile.setOnClickListener {
             startActivity(Intent(activity, EditProfileActivity::class.java))
             (activity as Activity?)!!.overridePendingTransition(0, 0)
         }
         auth = FirebaseAuth.getInstance()
 
+
         recyclerView = view.findViewById(R.id.user_post_recyclerView)
         recyclerView?.setHasFixedSize(true)
-        recyclerView?.layoutManager = LinearLayoutManager(context)
+        recyclerView?.layoutManager = GridLayoutManager(context,3)
         userPostList = ArrayList()
         userPostAdapter = context?.let { UserPostsAdapter(it, userPostList as ArrayList<Post>, true) }
         recyclerView?.adapter = userPostAdapter
         FetchUserDetails()
         getUserPostList()
-        view.Logout_button.setOnClickListener {
-            auth.signOut()
-            startActivity(Intent(activity, Login::class.java))
 
+        view.logout.setOnClickListener {
+            auth.signOut()
+            activity?.finish()
         }
+
         return view
     }
+
+
     private fun getUserPostList() {
         Firebase.firestore.collection("posts").whereEqualTo("uid",CurrentUser!!.uid)
             .orderBy("timestamp", Query.Direction.DESCENDING)
@@ -77,11 +82,14 @@ class UserProfileFragment : Fragment() {
                     if (post != null )
                     {
                         userPostList?.add(post)
+
                     }
                 }
                 view?.numberofPosts_textView?.text = count.toString()
 
                 userPostAdapter?.notifyDataSetChanged()
+                view?.numberofPosts_textView?.text = "Posts : ${userPostList?.size}"
+
             }
             .addOnFailureListener { exception ->
                 Log.d("Userposts", "Error getting documents: ", exception)
@@ -108,13 +116,16 @@ class UserProfileFragment : Fragment() {
                     Log.d("tagabc", "${document.id} => ${document.data}")
                     count++
                 }
-                view?.numberofFollowers_textView?.text = count.toString()
+                view?.numberofFollowers_textView?.text = "Followers : ${count.toString()}"
 
             }
             .addOnFailureListener { exception ->
 //                Log.w(TAG, "Error getting documents: ", exception)
             }
     }
+
+
+
 
     private fun FetchFollowingCount() {
         Log.d("tagabc", "followings profileId = " + CurrentUser.uid)
@@ -131,7 +142,7 @@ class UserProfileFragment : Fragment() {
                     count++
 
                 }
-                view?.numberofFollowing_textView?.text = count.toString()
+                view?.numberofFollowing_textView?.text = "Following : ${count.toString()}"
 
             }.addOnFailureListener { exception ->
                 Log.d("tagabc", "Error getting documents: ", exception)
@@ -150,12 +161,12 @@ class UserProfileFragment : Fragment() {
                             "TAG0",
                             "DocumentSnapshot data: ${document.data!!["profileimage"].toString()}"
                         )
-                        Picasso.get().load(document.data!!["profileimage"].toString()).into(view?.ProfileImage_Imageview)
+                        Picasso.get().load(document.data!!["profileimage"].toString()).placeholder(R.drawable.ic_profile_icon).into(view?.ProfileImage_Imageview)
                     }
-                    view?.UserName_textView?.setText(document.data!!["username"].toString())
-                    view?.FullName_textView?.setText(document.data!!["fullname"].toString())
+                    view?.UserName_textView?.setText(": "+document.data!!["username"].toString())
+                  //  view?.FullName_textView?.setText(document.data!!["fullname"].toString())
                     if(document.data!!["bio"].toString() !== ""){
-                        view?.Bio_textView?.setText(document.data!!["bio"].toString())
+                        view?.Bio_textView?.setText(": "+document.data!!["bio"].toString())
                     }
                 } else {
                     Log.d("TagUser", "error finding doc")

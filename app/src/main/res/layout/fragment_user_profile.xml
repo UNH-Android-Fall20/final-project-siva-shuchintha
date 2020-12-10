@@ -4,178 +4,205 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.UserProfileFragment"
-    android:layout_above="@+id/bottomNavViewBar">
+    android:layout_above="@+id/bottomNavViewBar"
+    tools:context=".Fragments.UserProfileFragment">
 
 
-
-
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/numberofPosts_textView"
+
+        <!--      <Button
+                  android:id="@+id/editProfileButton"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentStart="true"
+                  android:layout_alignParentTop="true"
+                  android:layout_alignParentEnd="true"
+                  android:layout_marginStart="291dp"
+                  android:layout_marginTop="5dp"
+                  android:layout_marginEnd="9dp"
+                  android:text="Edit Profile" />-->
+
+        <ImageView
+            android:id="@+id/ProfileImage_Imageview"
+            android:layout_width="0dp"
+            android:layout_height="120dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/lay_edit"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/ic_profile_icon" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/Bio_textView"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="257dp"
-            android:layout_marginEnd="330dp"
-            android:layout_marginBottom="41dp"
-            android:text="0" />
+            android:id="@+id/lay_edit"
+            app:layout_constraintLeft_toRightOf="@+id/ProfileImage_Imageview"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+
+        <ImageView
+            android:id="@+id/edit_profile"
+            android:layout_width="30dp"
+            android:layout_height="25dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:src="@drawable/ic_edit_icon" />
+        <ImageView
+
+            android:id="@+id/logout"
+            android:layout_width="30dp"
+            android:layout_height="25dp"
+            app:layout_constraintLeft_toRightOf="@+id/edit_profile"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/ic_logout_icon" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        
 
         <TextView
             android:id="@+id/numberofFollowers_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/Bio_textView"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="255dp"
-            android:layout_marginEnd="236dp"
-            android:layout_marginBottom="43dp"
-            android:text="0" />
+            android:text="0"
+            android:textSize="14sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@+id/ProfileImage_Imageview" />
+
 
         <TextView
             android:id="@+id/numberofFollowing_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/Bio_textView"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="254dp"
-            android:layout_marginEnd="118dp"
-            android:layout_marginBottom="44dp"
-            android:text="0" />
+            android:text="0"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/ProfileImage_Imageview"
+            app:layout_constraintRight_toRightOf="parent"/>
 
-        <Button
-            android:id="@+id/editProfileButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="291dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="9dp"
-            android:text="Edit Profile" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:id="@+id/lay_profile"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:padding="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/profile_background"
+        app:layout_constraintTop_toBottomOf="@+id/numberofFollowers_textView"
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/ProfileImage_Imageview"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/FullName_text"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/Bio_textView"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="22dp"
-            android:layout_marginEnd="265dp"
-            android:layout_marginBottom="167dp"
-            tools:srcCompat="@tools:sample/avatars" />
+            android:text="FullName"
+            android:layout_marginLeft="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/UserName_textView"
-            android:layout_width="212dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/Bio_textView"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="70dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginBottom="221dp"
             android:text="USERNAME"
-            android:textAlignment="center"
-            android:textSize="50px" />
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            app:layout_constraintLeft_toRightOf="@+id/FullName_text"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/FullName_textView"
-            android:layout_width="143dp"
+            android:id="@+id/bio_text"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/UserName_textView"
-            android:layout_alignBottom="@+id/Bio_textView"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="-4dp"
-            android:layout_marginTop="122dp"
-            android:layout_marginEnd="22dp"
-            android:layout_marginBottom="169dp"
-            android:text="FullName"
-            android:textAlignment="center"
-            android:textSize="50px" />
+            android:text="Bio"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@+id/FullName_text" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/Bio_textView"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="235dp"
-            android:layout_marginEnd="318dp"
-            android:layout_marginBottom="63dp"
-            android:text="Posts" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/Bio_textView"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="235dp"
-            android:layout_marginEnd="212dp"
-            android:layout_marginBottom="63dp"
-            android:text="Followers" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/Bio_textView"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="234dp"
-            android:layout_marginEnd="92dp"
-            android:layout_marginBottom="64dp"
-            android:text="Following" />
 
         <TextView
             android:id="@+id/Bio_textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="291dp"
-            android:layout_marginEnd="0dp"
-            android:text="UserBio......"
-            android:textAlignment="center"
-            android:textSize="50px" />
-
-    <androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/user_post_recyclerView"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_below="@+id/Bio_textView"
-    android:layout_alignParentBottom="true"
-    android:layout_marginTop="0dp"
-    android:layout_marginBottom="0dp" />
-
-        <Button
-            android:id="@+id/Logout_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="181dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="142dp"
-            android:text="Logout" />
+            android:text=": UserBio......"
+            android:textSize="14sp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            app:layout_constraintLeft_toRightOf="@+id/bio_text"
+            app:layout_constraintTop_toBottomOf="@+id/FullName_text" />
+
+        <TextView
+            android:id="@+id/website_text"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="WebSite"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:textSize="14sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/bio_text" />
 
 
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/website_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=": Web"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            app:layout_constraintLeft_toRightOf="@+id/website_text"
+            app:layout_constraintTop_toBottomOf="@+id/bio_text" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/numberofPosts_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_marginTop="20dp"
+            android:text="Posts : 0"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/black"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lay_profile" />
+
+      
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/user_post_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/numberofPosts_textView" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </FrameLayout>

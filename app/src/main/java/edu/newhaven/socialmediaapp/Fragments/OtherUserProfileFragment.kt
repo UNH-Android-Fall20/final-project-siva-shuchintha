@@ -6,7 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -22,6 +23,8 @@ import edu.newhaven.socialmediaapp.models.Post
 import kotlinx.android.synthetic.main.fragment_other_user_profile.*
 import kotlinx.android.synthetic.main.fragment_other_user_profile.view.*
 import java.util.*
+import kotlinx.android.synthetic.main.fragment_user_profile.view.*
+import java.util.ArrayList
 
 
 class OtherUserProfileFragment : Fragment() {
@@ -71,7 +74,7 @@ class OtherUserProfileFragment : Fragment() {
         }
         recyclerView = view.findViewById(R.id.otheruser_post_recyclerView)
         recyclerView?.setHasFixedSize(true)
-        recyclerView?.layoutManager = LinearLayoutManager(context)
+        recyclerView?.layoutManager = GridLayoutManager(context,3)
         otherUserPostList = ArrayList()
         userPostAdapter = context?.let { UserPostsAdapter(
             it,
@@ -105,6 +108,7 @@ class OtherUserProfileFragment : Fragment() {
                 }
                 view?.numberofPostsOtherUser_textView?.text = count.toString()
                 userPostAdapter?.notifyDataSetChanged()
+                view?.numberofPostsOtherUser_textView?.text = "Posts : ${otherUserPostList?.size}"
             }
             .addOnFailureListener { exception ->
                 Log.d("otherUserposts", "Error getting documents: ", exception)
@@ -177,7 +181,8 @@ class OtherUserProfileFragment : Fragment() {
                 Log.d("tagabc", "${document.id} => ${document.data}")
                 count++
             }
-            view?.numberofFollowersOtherUser_textView?.text = count.toString()
+            view?.numberofFollowersOtherUser_textView?.text = "Followers : ${count.toString()}"
+
 
         }
             .addOnFailureListener { exception ->
@@ -200,7 +205,7 @@ class OtherUserProfileFragment : Fragment() {
                 count++
 
             }
-            view?.numberofFollowingOtherUser_textView?.text = count.toString()
+            view?.numberofFollowingOtherUser_textView?.text = "Following : ${count.toString()}"
 
         }.addOnFailureListener { exception ->
             Log.d("tagabc", "Error getting documents: ", exception)
@@ -215,18 +220,13 @@ class OtherUserProfileFragment : Fragment() {
                 Log.d("TagUser", "DocumentSnapshot data: ${document.data}")
                 Log.d("TagUser", "DocumentSnapshot data: ${document.data!!["bio"]}")
                 if(document.data!!["profileimage"].toString() !== ""){
-                    Log.d(
-                        "TAG0",
-                        "DocumentSnapshot data: ${document.data!!["profileimage"].toString()}"
-                    )
-                    Picasso.get().load(document.data!!["profileimage"].toString()).into(
-                        ProfileImageOtherUser_Imageview
-                    )
+                    Log.d("TAG0", "DocumentSnapshot data: ${document.data!!["profileimage"].toString()}")
+                    Picasso.get().load(document.data!!["profileimage"].toString()).placeholder(R.drawable.ic_profile_icon).into(ProfileImageOtherUser_Imageview)
                 }
-                UserNameOtherUser_textView.setText(document.data!!["username"].toString())
-                FullNameOtherUser_textView.setText(document.data!!["fullname"].toString())
+                UserNameOtherUser_textView.setText(": "+document.data!!["username"].toString())
+               // FullNameOtherUser_textView.setText(document.data!!["fullname"].toString())
                 if(document.data!!["bio"].toString() !== ""){
-                    BioOtherUser_textView.setText(document.data!!["bio"].toString())
+                    BioOtherUser_textView.setText(": "+document.data!!["bio"].toString())
                 }
             } else {
                 Log.d("TagUser", "error finding doc")

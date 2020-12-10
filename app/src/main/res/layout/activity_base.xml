@@ -8,9 +8,6 @@
     tools:context=".BaseActivity">
 
 
-
-
-
         <RelativeLayout
             android:id="@+id/relLayout2"
             android:layout_width="match_parent"
