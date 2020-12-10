@@ -11,6 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/background_top"
+            app:labelVisibilityMode="unlabeled"
             app:menu="@menu/bottom_navibar_menu">
 
         </com.google.android.material.bottomnavigation.BottomNavigationView>

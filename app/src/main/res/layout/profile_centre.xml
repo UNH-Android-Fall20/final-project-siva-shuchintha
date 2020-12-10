@@ -41,7 +41,8 @@
                     android:layout_height="80dp"
                     android:layout_centerVertical="true"
                     app:civ_border_color="@color/colorPrimary"
-                    app:civ_border_width="0.5dp"/>
+                    app:civ_border_width="0.5dp"
+                    />
 
 
             </RelativeLayout>
@@ -117,7 +118,6 @@
                 android:numColumns="3"
                 android:stretchMode="columnWidth"
                 android:verticalSpacing="1dp">
-
 
             </GridView>
 
