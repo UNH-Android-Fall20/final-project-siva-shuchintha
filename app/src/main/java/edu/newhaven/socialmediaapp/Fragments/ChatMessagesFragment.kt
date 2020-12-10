@@ -84,7 +84,7 @@ class ChatMessagesFragment : Fragment() {
         var timestamp = ft.format(dNow)
         Log.d("USERNAMEHERE", userName.toString())
 
-        var message = Messages(userName, addMessage_editText?.text.toString(),timestamp)
+        var message = Messages(userName, addMessage_editText?.text.toString(),timestamp,CurrentUser.uid)
         val idMessage = timestamp + CurrentUser!!.uid + OtherUser.toString()
         Firebase.firestore.collection("users")
             .document(CurrentUser.uid)
@@ -106,7 +106,7 @@ class ChatMessagesFragment : Fragment() {
         var timestamp = ft.format(dNow)
         Log.d("USERNAMEHERE", userName.toString())
 
-        var message = Messages(userName, addMessage_editText?.text.toString(),timestamp)
+        var message = Messages(userName, addMessage_editText?.text.toString(),timestamp,CurrentUser.uid)
         val idMessage = timestamp  + OtherUser.toString() + CurrentUser!!.uid
         Firebase.firestore.collection("users")
             .document(OtherUser.toString())

@@ -8,6 +8,7 @@ class Messages (
     var username: String? = "",
     var message: String? = "",
     var timestamp: String = "",
+    var userid: String = ""
 
 
     ) {
@@ -17,7 +18,8 @@ class Messages (
         return mapOf(
             "username" to username,
             "message" to message,
-            "timestamp"  to timestamp
+            "timestamp"  to timestamp,
+            "userid" to userid
         )
     }
 }
