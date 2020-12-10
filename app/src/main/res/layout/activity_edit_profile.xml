@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:flow_horizontalAlign="center"
+    tools:context=".EditProfileActivity">
+
+
+    <ImageView
+        android:id="@+id/profile_pic_edit"
+        android:layout_width="match_parent"
+        android:layout_height="151dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_profile_icon" />
+
+    <Button
+        android:id="@+id/profilePicChange_button"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        app:layout_constraintTop_toBottomOf="@+id/profile_pic_edit"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_shape"
+        android:padding="5dp"
+        android:textSize="12sp"
+        android:textColor="@color/white"
+        android:text="Change Profile Pic"
+        android:textAlignment="center" />
+
+    <EditText
+        android:id="@+id/editFullName_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/profilePicChange_button"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"
+        android:inputType="textPersonName"
+        android:text="@string/FullName" />
+
+    <EditText
+        android:id="@+id/editBio_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/editFullName_text"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:inputType="textPersonName"
+        android:layout_marginLeft="20dp"
+        android:textColor="@color/black"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="20dp"
+        android:text="Bio" />
+
+    <Button
+        android:id="@+id/saveChanges_button"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/button_shape"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/editBio_text"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/deleteAcc_button"
+        android:text="Save" />
+
+    <Button
+        android:id="@+id/deleteAcc_button"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/button_shape"
+       app:layout_constraintTop_toBottomOf="@+id/editBio_text"
+        app:layout_constraintLeft_toRightOf="@+id/saveChanges_button"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="20dp"
+        android:text="Delete Account" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

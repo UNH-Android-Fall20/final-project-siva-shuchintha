@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    >
+    <TextView
+        android:id="@+id/username_comments_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text="User name"
+        android:textSize="15sp"
+        android:layout_marginStart="3dp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/comment_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/username_comments_textView"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="2dp"
+        android:gravity="left"
+        android:text="User comment will be displayed here"
+        android:textSize="14sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/ash"
+        android:layout_below="@+id/comment_textView"
+        android:layout_marginTop="10dp"/>
+
+</RelativeLayout>

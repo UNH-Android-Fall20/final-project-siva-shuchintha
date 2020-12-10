@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/miEdit"
+        android:icon="@drawable/ic_edit_icon"
+        app:showAsAction="ifRoom|withText"
+        android:title="">
+    </item>
+    <item
+        android:id="@+id/miLogout"
+        android:icon="@drawable/ic_logout_icon"
+        app:showAsAction="ifRoom|withText"
+        android:title="">
+    </item>
+</menu>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SignUp">
+
+    <include layout="@layout/background_layout" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="25dp">
+
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="35sp"
+            android:textColor="@color/white"
+            android:layout_marginBottom="20dp"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="top"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="@string/SignUp" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="5dp"
+        android:theme="@style/Theme.MaterialComponents.Light"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp"
+        app:strokeColor="@color/colorAccent">
+
+
+    <LinearLayout
+        android:id="@+id/lay_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="25dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textinput1"
+            android:background="@color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/FullName"
+                android:id="@+id/SignUp_FullName"
+                android:inputType="text"
+                android:background="@color/white"
+                android:textColor="@color/black"
+                android:ems="10"
+                android:textSize="14sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textinput2"
+            android:background="@color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/UserName"
+                android:id="@+id/SignUp_UserName"
+                android:inputType="text"
+                android:ems="10"
+                android:textColor="@color/black"
+                android:background="@color/white"
+                android:textSize="14sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textinput3"
+            android:background="@color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/Email_Address"
+                android:background="@color/white"
+                android:id="@+id/SignUp_EmailAddress"
+                android:inputType="textEmailAddress"
+                android:ems="10"
+                android:textColor="@color/black"
+                android:textSize="14sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textinput4"
+            android:background="@color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/Password"
+                android:id="@+id/SignUp_Password"
+                android:inputType="textPassword"
+                android:background="@color/white"
+                android:ems="10"
+                android:textColor="@color/black"
+                android:textSize="14sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <Button
+            android:id="@+id/button_Signup"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button_shape"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:text="@string/SignUp" />
+    </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
+        <TextView
+            android:id="@+id/textview_Login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:gravity="center"
+           android:layout_alignParentBottom="true"
+            android:clickable="true"
+            android:textSize="16sp"
+            android:textColor="@color/colorAccent"
+            android:text="@string/Have_Account" />
+
+
+
+
+
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

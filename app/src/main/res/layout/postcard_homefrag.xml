@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardCornerRadius="8dp"
+    android:layout_margin="10dp"
+    android:theme="@style/Theme.MaterialComponents.Light"
+    app:strokeColor="@color/colorAccent"
+    app:cardElevation="2dp">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_margin="5dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/otheruser_username_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:text="User Name" />
+
+        <ImageView
+            android:id="@+id/PostImage_imageView"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="5dp"
+            android:adjustViewBounds="true"
+            app:layout_constraintTop_toBottomOf="@+id/otheruser_username_textView"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+
+
+
+        <!--<TextView
+            android:id="@+id/Title_post_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/PostImage_imageView"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="29dp"
+            android:gravity="center"
+            android:text="Title of the post"
+            android:textSize="12dp" />-->
+
+        <ImageView
+            android:id="@+id/Likes_post_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_unlike_icon"
+            android:padding="2dp"
+            app:layout_constraintBottom_toBottomOf="@+id/addComment_editText"
+            app:layout_constraintTop_toBottomOf="@+id/PostImage_imageView"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+
+     <!--   <TextView
+            android:id="@+id/Comments_post_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/PostImage_imageView"
+            android:layout_alignStart="@+id/Title_post_textView"
+            android:layout_marginStart="58dp"
+            android:layout_marginTop="48dp"
+            android:text="Comments" />-->
+
+        <EditText
+            android:id="@+id/addComment_editText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/PostImage_imageView"
+            app:layout_constraintLeft_toRightOf="@+id/Likes_post_button"
+            app:layout_constraintRight_toRightOf="parent"
+            android:paddingRight="30dp"
+            android:layout_marginTop="10dp"
+            android:hint="add a comment" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/send_comment"
+            app:layout_constraintTop_toBottomOf="@+id/PostImage_imageView"
+            app:layout_constraintRight_toRightOf="parent"
+            android:src="@drawable/ic_send"
+            android:padding="5dp"
+            app:layout_constraintBottom_toBottomOf="@+id/addComment_editText"
+            app:tint="@color/colorAccent"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>
